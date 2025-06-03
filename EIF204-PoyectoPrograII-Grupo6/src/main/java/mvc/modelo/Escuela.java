@@ -51,6 +51,15 @@ public class Escuela {
         return null;
     }
 
+    public Curso getCursoConNombre(String pNombre){
+        for(Curso c : cursos) {
+            if(c.getNombre().equalsIgnoreCase(pNombre)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
     public String modificarCurso(String sigla, String nombre) {
         Curso curso = getCursoConSigla(sigla);
 
@@ -92,4 +101,3 @@ public class Escuela {
         return "Profesor no encontrado D:";
     }
 }
-

@@ -24,6 +24,7 @@ public class EstudianteNacional extends Estudiante{
         this.porcentajeBecaEstudiante = pPorcentajeBecaEstudiante;
     }
 
+
     public double calculoDeArancelesCurso(int cantidadCreditos) {
         double costoBaseCreditos = cantidadCreditos * costoPorCredito;
         double subTotal = costoBaseCreditos + cargosAdministrativos;
@@ -34,8 +35,7 @@ public class EstudianteNacional extends Estudiante{
 
     public String toString() {
         return  "---Estudiante nacional---" + "\n"
-                + super.toString()
+                + super.toString() + "\n"
                 + "Porcentaje de beca del estudiante: " + (this.porcentajeBecaEstudiante * 100) + "%";
     }
-
 }

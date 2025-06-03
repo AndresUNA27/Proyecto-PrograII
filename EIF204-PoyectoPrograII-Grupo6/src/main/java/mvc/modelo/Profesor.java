@@ -12,6 +12,16 @@ public class Profesor {
     private Escuela escuelaPertenece;
     private ArrayList<Curso> cursosImpartidos;
 
+    public Profesor(){
+        this.numeroCedula = 0;
+        this.nombre = "";
+        this.apellido1 = "";
+        this.apellido2 = "";
+        this.director = false;
+        this.escuelaPertenece = null;
+        this.cursosImpartidos = null;
+    }
+
     public Profesor(int pNumeroCedula, String pNombre, String pApellido1, String pApellido2, boolean pDirector, Escuela pEscuela){
         this.numeroCedula = pNumeroCedula;
         this.nombre = pNombre;
@@ -76,9 +86,9 @@ public class Profesor {
 
     public String toString() {
         return "Cedula = " + numeroCedula + "\n" +
-                "Nombre = " + nombre + "\n" +
-                "Primer apellido = " + apellido1 + "\n" +
-                "Segundo apellido = " + apellido2 + "\n" +
-                "Escuela donde fue registrado = " + (escuelaPertenece.getVarSchoolName());
+                " Nombre = " + nombre + "\n" +
+                " Primer apellido = " + apellido1 + "\n" +
+                " Segundo apellido = " + apellido2 + "\n" +
+                " Escuela donde fue registrado = " + (escuelaPertenece.getVarSchoolName());
     }
 }

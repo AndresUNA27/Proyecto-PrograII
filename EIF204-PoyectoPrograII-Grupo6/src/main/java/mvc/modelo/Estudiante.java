@@ -14,16 +14,16 @@ public class Estudiante {
         this.nombreEstudiante = "";
         this.apellido1Estudiante = "";
         this.apellido2Estudiante = "";
-        this.nacionalidadEstudiante = "";
+        nacionalidadEstudiante = "";
     }
 
-    public Estudiante(int pNumeroCedula, int pNumeroCarnet, String pNombreEstudiante, String pApellido1, String pApellido2, String pNacionaidad){
+    public Estudiante(int pNumeroCedula, int pNumeroCarnet, String pNombreEstudiante, String pApellido1, String pApellido2, String pNacionalidad) {
         this.numeroCedulaEstudiante = pNumeroCedula;
         this.numeroCarnetEstudiante = pNumeroCarnet;
         this.nombreEstudiante = pNombreEstudiante;
         this.apellido1Estudiante = pApellido1;
         this.apellido2Estudiante = pApellido2;
-        this.nacionalidadEstudiante = pNacionaidad;
+        this.nacionalidadEstudiante = pNacionalidad;
     }
 
     // Getters y setters de los atributos
@@ -76,11 +76,11 @@ public class Estudiante {
     }
 
     public String toString() {
-        return  "Numero de cedula del estudiante: " + this.numeroCedulaEstudiante + "\n"
-                + "Numero del carnet del estudiante: " + this.numeroCarnetEstudiante + "\n"
+        return  " cedula del estudiante: " + this.numeroCedulaEstudiante + "\n"
+                + "carnet del estudiante: " + this.numeroCarnetEstudiante + "\n"
                 + "Nombre del estudiante: " + this.nombreEstudiante + "\n"
                 + "Primer apellido del estudiante: " + this.apellido1Estudiante + "\n"
                 + "Segundo apellido del estudiante: " + this.apellido2Estudiante + "\n"
-                + "El estudiante es: " + this.nacionalidadEstudiante + "\n";
+                + "Nacionalidad del estudiante: " + this.nacionalidadEstudiante + "\n";
     }
 }

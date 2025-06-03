@@ -1,14 +1,17 @@
 package mvc.modelo;
+import javax.swing.*;
 import java.util.ArrayList;
-
+import java.util.Random;
 
 public class Curso {
     private String sigla;
     private String nombre;
     private String escuelaPertenece;
+    private float creditos;
     private ArrayList<Profesor> profesoresDelCurso;
     private ArrayList<EstudianteNacional> estudiantesNacionalesDelCurso;
     private ArrayList<EstudianteExtranjero> estudiantesExtranjerosDelCurso;
+    private ArrayList<Grupo> gruposDelCurso;
 
     public Curso(){
         this.sigla = "";
@@ -23,6 +26,16 @@ public class Curso {
         this.profesoresDelCurso= new ArrayList<>();
         this.estudiantesNacionalesDelCurso = new ArrayList<>();
         this.estudiantesExtranjerosDelCurso = new ArrayList<>();
+        this.gruposDelCurso = new ArrayList<>();
+        this.creditos = new Random().nextFloat(2) + 3;
+    }
+
+    public float getCreditos() {
+        return creditos;
+    }
+
+    public void setCreditos(float creditos) {
+        this.creditos = creditos;
     }
 
     public void setSigla(String sigla) {
@@ -50,17 +63,21 @@ public class Curso {
     public ArrayList<EstudianteNacional> getEstudiantesNacionalesDelCurso() {
         return estudiantesNacionalesDelCurso;
     }
-
-    public void agregarEstudianteNacional(EstudianteNacional estudianteNacional){
-        this.estudiantesNacionalesDelCurso.add(estudianteNacional);
+    public boolean estaMatriculadoExtranjero(Estudiante estudiante) {
+        return estudiantesExtranjerosDelCurso.contains(estudiante);
     }
-
-    public void cambiarDeNacionalidad(int pNumeroCedula){
-        for (EstudianteNacional e : estudiantesNacionalesDelCurso){
-            if (e.getNumeroCedulaEstudiante() == pNumeroCedula ) {
-                estudiantesNacionalesDelCurso.remove(e);
-            }
+    public boolean estaMatriculadoNacional(Estudiante estudiante) {
+        return estudiantesNacionalesDelCurso.contains(estudiante);
+    }
+    public boolean estaDesmatriculadoEstudiante(Estudiante pEstudiante){
+        return estudiantesExtranjerosDelCurso.contains(pEstudiante);
+    }
+    public void agregarEstudianteNacional(EstudianteNacional estudianteNacional){
+        if(!estaMatriculadoExtranjero(estudianteNacional)){
+            this.estudiantesNacionalesDelCurso.add(estudianteNacional);
+            return;
         }
+        JOptionPane.showMessageDialog(null,"El estudiante ya esta matriculado");
     }
 
     public ArrayList<EstudianteExtranjero> getEstudiantesExtranjerosDelCurso() {
@@ -68,18 +85,42 @@ public class Curso {
     }
 
     public void agregarEstudianteExtranjero(EstudianteExtranjero estudianteExtranjero){
-        this.estudiantesExtranjerosDelCurso.add(estudianteExtranjero);
+        if(!estaMatriculadoNacional(estudianteExtranjero)){
+            this.estudiantesExtranjerosDelCurso.add(estudianteExtranjero);
+            return;
+        }
+        JOptionPane.showMessageDialog(null,"El estudiante ya esta matriculado");
     }
-
-    public void cambiarDeNacionalidadEstudianteExtranjero(int pNumeroCarnet){
-        for (EstudianteExtranjero e : estudiantesExtranjerosDelCurso){
-            if (e.getNumeroCarnetEstudiante() == pNumeroCarnet) {
-                estudiantesExtranjerosDelCurso.remove(e);
+    public void eliminarEstudiante(Estudiante est){
+        if(!estaDesmatriculadoEstudiante(est)) {
+            if (est instanceof EstudianteNacional) {
+                estudiantesNacionalesDelCurso.remove(est);
+            } else if (est instanceof EstudianteExtranjero) {
+                estudiantesExtranjerosDelCurso.remove(est);
             }
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"El estudiante no puede desmatricularse porque esta matriculado");
         }
     }
 
+    public void agregarEstudiante(Estudiante est) {
+        if (est instanceof EstudianteNacional) {
+            agregarEstudianteNacional((EstudianteNacional) est);
+        } else if (est instanceof EstudianteExtranjero) {
+        agregarEstudianteExtranjero((EstudianteExtranjero) est);
+        }
+    }
+
+    public ArrayList<Grupo> getGruposDelCurso(){
+        return gruposDelCurso;
+    }
+
+    public void agregarGrupo(Grupo pGrupo){
+        gruposDelCurso.add(pGrupo);
+    }
+
     public String toString() {
-        return sigla + " - " + nombre + " - " + escuelaPertenece+" ";
+        return sigla + ": " + nombre + ": " + escuelaPertenece+": ";
     }
 }

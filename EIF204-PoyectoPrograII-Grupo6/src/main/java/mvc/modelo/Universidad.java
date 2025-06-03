@@ -1,4 +1,5 @@
 package mvc.modelo;
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class Universidad {
@@ -9,6 +10,7 @@ public class Universidad {
     private ArrayList<Escuela> escuelas;
     private ArrayList<EstudianteNacional> estudiantesNacionalesDeLaUniversidad;
     private ArrayList<EstudianteExtranjero> estudiantesExtranjerosDeLaUniversidad;
+    // private ArrayList<Curso>listaCursos;
 
     public String getVarNameU() {
         return varNameU;
@@ -64,6 +66,47 @@ public class Universidad {
     public void agregarEstudianteExtranjero(EstudianteExtranjero pEstudianteExtranjero) { this.estudiantesExtranjerosDeLaUniversidad.add(pEstudianteExtranjero); }
 
     public ArrayList<EstudianteExtranjero> getEstudiantesExtranjerosDelCurso(){ return this.estudiantesExtranjerosDeLaUniversidad; }
+
+    public Escuela getEscuelaConNombre(String pNombreEscuela){
+        for(Escuela e : escuelas) {
+            if(e.getVarSchoolName().equalsIgnoreCase(pNombreEscuela)) {
+                return e;
+            }
+        }
+        return null;
+    }
+
+    public void cambiarDeNacionalidadEstudianteNacional(int pNumeroCedulaCarnet){
+        estudiantesNacionalesDeLaUniversidad.removeIf(
+                e -> e.getNumeroCedulaEstudiante() == pNumeroCedulaCarnet || e.getNumeroCarnetEstudiante() == pNumeroCedulaCarnet
+        );
+    }
+
+    public EstudianteNacional encontrarEstudianteNacionalConCedulaCarnet(int pNumeroCedulaCarnet){
+        for (EstudianteNacional e : estudiantesNacionalesDeLaUniversidad){
+            if (e.getNumeroCedulaEstudiante() == pNumeroCedulaCarnet || e.getNumeroCarnetEstudiante() == pNumeroCedulaCarnet) {
+                JOptionPane.showMessageDialog(null, "Estudiante nacional encontrado correctamente!!!");
+                return e;
+            }
+        }
+        return null;
+    }
+
+    public void cambiarDeNacionalidadEstudianteExtranjero(int pNumeroCedulaCarnet){
+        estudiantesExtranjerosDeLaUniversidad.removeIf(
+                e -> e.getNumeroCedulaEstudiante() == pNumeroCedulaCarnet || e.getNumeroCarnetEstudiante() == pNumeroCedulaCarnet
+        );
+    }
+
+    public EstudianteExtranjero encontrarEstudianteExtranjeroConCedulaCarnet(int pNumeroCedulaCarnet){
+        for (EstudianteExtranjero e : estudiantesExtranjerosDeLaUniversidad) {
+            if (e.getNumeroCedulaEstudiante() == pNumeroCedulaCarnet || e.getNumeroCarnetEstudiante() == pNumeroCedulaCarnet) {
+                JOptionPane.showMessageDialog(null, "Estudiante extranjero encontrado correctamente!!!");
+                return e;
+            }
+        }
+        return null;
+    }
 
     public String toString() {
 

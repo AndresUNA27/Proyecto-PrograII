@@ -24,7 +24,7 @@ public class EstudianteExtranjero extends Estudiante{
 
     public String toString() {
         return "---Estudiante extranjero---" + "\n"
-                + super.toString()
+                + super.toString() + "\n"
                 + "Recargo del estudiante: " + (this.recargoEstudianteExtranjero * 100) + "%";
     }
 }

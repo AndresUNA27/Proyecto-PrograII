@@ -1,9 +1,7 @@
 package mvc.view;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-
 import mvc.modelo.*;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,22 +12,25 @@ public class PrincipalView extends JFrame {
     public JPanel panelContenedor;
     public CardLayout layout;
 
-    private JPanel panelFormularioU, panelModificarU, panelFormularioE,panelConsultaE;
-    private JPanel panelAgregarCurso, panelModificarCurso, panelMostrarCurso, panelEliminarCurso,panelVerCursos; // Paneles de cursos;
+    private JPanel panelFormularioU, panelModificarU, panelFormularioE, panelConsultaE;
+    private JPanel panelAgregarCurso, panelModificarCurso, panelMostrarCurso, panelEliminarCurso, panelVerCursos; // Paneles de cursos;
+    private JPanel panelAgregarGrupoACurso;
     private JPanel panelGestionarProfesores, panelAgregarProfesor, panelModificarProfesor, panelMostrarInformacionProfesor;
     private JPanel panelAsignarProfeCurso, panelListaCursosAsignadosProfesor, panelListaProfesDeUnaEscuela;
-    private JPanel panelGestionarEstudiantes, panelAgregarEstudiantes, panelMostrarInformacionEstudiante,panelMatricularEstudiante;
-    private JPanel panelConsultaGeneralProfesores; // Panel para consulta general de los profes
+    private JPanel panelGestionarEstudiantes, panelAgregarEstudiantes, panelMostrarInformacionEstudiante, panelModificarEstudiante, panelMatricularEstudiante;
+    private JPanel panelConsultaGeneralProfesores, panelCalculoAranceles; // Panel para consulta general de los profes
+    private JPanel panelListaGeneralEstudiantil; //panel para mostrar la consulta general del estudiante
 
     public JTextField txtNameU, txtAddressU, txtNumberU; // Campos de texto para agregar unis
     public JTextField txtName2, txtAddress2, txtNumber2; // Campos de texto para modificar unis
-    public JTextField txtNameEscuelaUniBuscar,txtNameEscuela; // Campos de texto para agregar escuelas
+    public JTextField txtNameEscuelaUniBuscar, txtNameEscuela; // Campos de texto para agregar escuelas
     public JTextField txtNameUniConsultarE; // Campos de texto para consultar las escuelas
     public JTextField txtBuscarUniRegistrarCurso, txtSiglaCursoAgregar, txtNombreCursoAgregar; // Campos de texto para agregar un curso
     public JTextField txtBuscarCursoPorSigla, txtNombreCursoM, txtEscuelaCursoM;
-    public JTextField txtBuscarCursoEscuela,txtBuscarListaUE; //campos de texto mostrar cursos
+    public JTextField txtBuscarCursoEscuela, txtBuscarListaUE; //campos de texto mostrar cursos
     public JTextField txtModUCurso, txtModECurso, txtModBCursoPorSigla, txtNuevoNombreCurso, txtNuevaSigla;  //campos de texto para modificar un curso
     public JTextField txtEliminarUCurso, txtEliminarECurso, txtEliminarCursoPorSigla; //campos de texto para eliminar un curso
+    public JTextField txtBuscarUniAgregarGrupo, txtSiglaGrupoAgregarGrupo;
     public JTextField txtBuscarUniAgregarProfesor, txtNumeroCedulaProfesor, txtNombreProfesor, txtApellido1Profesor, txtApellido2Profesor;
     // Campos de texto para agregar un profesor a una escuela
     public JTextField txtBuscarUniModificarProfe, txtEscribirCedulaModificarProfe, txtCedulaProfeModificarProfe, txtNombreProfeModificarProfe, txtApellido1ProfeModificarProfe, txtApellido2ProfeModificarProfe;
@@ -40,19 +41,26 @@ public class PrincipalView extends JFrame {
     public JTextField txtBuscarUniAgregarEstudiante, txtNumeroCedulaEstudiante, txtNumeroCarnetEstudiante; // #1 - Campos texto de agregar estudiantes
     public JTextField txtNombreEstudiante, txtApellido1Estudiante, txtApellido2Estudiante; // #2 - Campos texto de agregar estudiantes
     public JTextField txtBuscarUniMostrarInfoEstudiante, txtBuscarEstConCedulaCarnetMostrarInfoEst;
-    public JTextField txtBuscarUMatriculaEstudiante;
+    public JTextField txtBuscarUniModificarEstudiante, txtBuscarEstudianteModificarEstudiante, txtNombreModificarEstudiante,
+            txtApellido1ModificarEstudiante, txtApellido2ModificarEstudiante;
+    public JTextField txtBuscarUMatriculaEstudiante, txtCalculoAranceles;
+    public JTextField txtCalculoArancelesBuscarU, txtCalculoArancelesBuscarID;
 
     public JComboBox<String> cbEscuelasRegistrarCurso; // JCombo box para mostrar las escuelas disponibles a elegir
-    public JComboBox<String>cbCursoEscuela;
-    public JComboBox<String>cbEscuelasAgregarProfesor;
-    public JComboBox<Profesor>cbListaProfes,cbListaProfes2;
-    public JComboBox<Curso>cbListaCursos;//los cajabox del metodo para asignar un profesor
-    public JComboBox<Curso>cbListaCursos2;
-    public JComboBox<Estudiante>cbListaEstudiantes;
-  //  public JComboBox<EstudianteExtranjero>cbListaEstudianteExtranjero;
-    public JComboBox<Escuela>cbListaEscuelas;  //4. Recuperación de la lista de profesores de una escuela.
+    public JComboBox<String> cbCursoEscuela;
+    public JComboBox<String> cbEscuelasAgregarGrupo, cbCursosAgregarGrupo;
+    public JComboBox<String> cbEscuelasAgregarProfesor;
+    public JComboBox<Profesor> cbListaProfes, cbListaProfes2;
+    public JComboBox<Curso> cbListaCursos; //los cajabox del metodo para asignar un profesor
+    public JComboBox<Grupo> cbGruposDelCurso;
+    public JComboBox<Curso> cbListaCursos2;
+    public JComboBox<Estudiante> cbListaEstudiantes, cbListaEstudiantes2;
+    //  public JComboBox<EstudianteExtranjero>cbListaEstudianteExtranjero;
+    public JComboBox<Escuela> cbListaEscuelas;  //4. Recuperación de la lista de profesores de una escuela.
     public JComboBox<String> cbConsultaGeneralProfes; //ComboBox para seleccionar la consulta
     public JComboBox<String> cbEscogerNacionalidad, cbEscogerCantidadBeca;
+    public JComboBox <String> cbConsultaGeneralEstudiantesporCurso; //Combobox para consultar la lista de estudiantes
+    public JComboBox <String> cbNacionalidadEstudianteModificarEstudiante;
 
     public JTextArea jtaEscuelasEnUni; // Campo de texto de area para consultar las escuelas
     public JTextArea jtaMostrarUYEscuela; // campo de texto donde se mostraran las universidaades y el las escuelas
@@ -61,47 +69,51 @@ public class PrincipalView extends JFrame {
     public JTextArea jtaCursosAsignadosProfesor;
     public JTextArea jtaListaProfesDeUnaEscuela;//4. Recuperación de la lista de profesores de una escuela.
     public JTextArea jtaMostrarConsultaGeneralProfes; //Campo de texto para mostrar la consulta general de los profes
-    public JTextArea jtaMostrarInformacionEstudiante;
+    public JTextArea jtaMostrarInformacionEstudiante, jtaCalculoAranceles;
+    public JTextArea jtaMostrarConsultaGeneralEstudiantes; //Campo de texto para mostrar el dato general del estudiante
 
     public JLabel lblEscribirEscuela, lblEscribirUniModificarProfe, lblEscribirCedulaModificarProfe;
     public JLabel lblEscribirUniMostrarProfesor, lblEscribirProfesorMostrarProfesor; // Label para indicar donde se puede agregar escuelas
     public JLabel lblEscribirUniMostrarInfoEstudiante, lblEscribirCedulaCarnetMostrarInfoEstudiante;
 
     public JButton btnAgregar, btnModificar, btnCambiar, btnAgregarCursos, btnIrE; // Botones para agregar unis
-    public JButton btnModificar2, btnCambiar2,btnBuscarNombreU, btnVolver; // Botones para modificar unis
-    public JButton btnEscuelaBuscarUni, btnAgregarEscuela,btnConsultarE; // Botones para agregar escuelas
-    public JButton btnverLisCursos,btnCambiar3, btnBuscarNombreUniE,btnVolverAgregarEscuela,btnMostrarCargaAcademica; // Botones para consultar escuelas
+    public JButton btnModificar2, btnCambiar2, btnBuscarNombreU, btnVolver; // Botones para modificar unis
+    public JButton btnEscuelaBuscarUni, btnAgregarEscuela, btnConsultarE; // Botones para agregar escuelas
+    public JButton btnverLisCursos, btnCambiar3, btnBuscarNombreUniE, btnVolverAgregarEscuela, btnMostrarCargaAcademica; // Botones para consultar escuelas
     // Botones del panel de agregar curso
     public JButton btnBuscarUniRegistrarCurso, btnBuscarNuevaUni, btnCambiar4, btnModificarCurso, btnRegistrarCurso, btnConsultarCurso, btnEliminarCurso;
     // Botones del panel de mostrar un curso
     public JButton btnBuscarCursoPorSigla, btnVolverAgregarCursos;
-    public JButton btnBuscarCursoEscuela,btnVolUni,btnTodosCurso;//botones para mostrar cursos
+    public JButton btnBuscarCursoEscuela, btnVolUni, btnTodosCurso;//botones para mostrar cursos
     public JButton btnBuscarSiglaCurso, btnModCursoP, btnVolverACursos; //botones para modificar un curso
     public JButton btnEliminarCursoPorSiglas, btnIrEliminarCurso, btnVolverAlCurso; //botones para eliminar un curso
     public JButton btnIrGestionarProfesores, btnGestionarEstudiantes; // Boton para ir al panel de seleecion
     public JButton btnVolverAgregarUniDesdeGestionarProfesores, btnGestionarProfesores, btnGestionCursosProfesores, btnConsultarCursoProfesores, btnConsultarEscuelaProfesores;
+    public JButton   btnIrAgregarGrupoACurso;
+    public JButton btnBuscarUniAgregarGrupo, btnVolverAgregarUniDesdeAgregarGrupo, btnAgregarGrupoACurso;
     public JButton btnBuscarUniProfesores, btnVolverGestionarProfesores1, btnModificarProfesor, btnConsultarInformacionProfesor, btnAgregarProfesor; // Botones para agregar un profesor a una escuela
     public JButton btnBuscarUniModificarProfesor, btnBuscarProfeConCedulaModificarProfe, btnVolverAgregarProfesor, btnModificarInformacionProfesor;
     public JButton btnBuscarUniMostrarProfesor, btnBuscarProfesorMostrarProfesor, btnVolverAgregarProfesorDesdeMostrarProfesor, btnBuscarOtraUniMostrarProfesor;
-    public JButton btnBuscarUListaProfesDeUnaEscuela,btnMostrarListaProfesDeUnaEscuela,btnIrListaProfesDeUnaEscuela,btnVolverListaProfesDeUnaEscuela;
-    public JButton btnAsignarProfeCurso,btnDesasignarProfeCurso, btnBuscarUniverdad,btnVolverr,btnIrListaCurososAsigandosProfesor;//bones para asiganr y desasignar un curso
-    public JButton btnMostrarListaCursosAsignadosProfesor,btnBuscarUniversidadListaCursosAsignadosProfesor,btnVolverUniversidadListaCursosAsignadosProfesor;//4. Recuperación de la lista de profesores de una escuela.
+    public JButton btnBuscarUListaProfesDeUnaEscuela, btnMostrarListaProfesDeUnaEscuela, btnIrListaProfesDeUnaEscuela, btnVolverListaProfesDeUnaEscuela;
+    public JButton btnAsignarProfeCurso, btnDesasignarProfeCurso, btnBuscarUniverdad, btnVolverr, btnIrListaCurososAsigandosProfesor;//bones para asiganr y desasignar un curso
+    public JButton btnMostrarListaCursosAsignadosProfesor, btnBuscarUniversidadListaCursosAsignadosProfesor, btnVolverUniversidadListaCursosAsignadosProfesor;//4. Recuperación de la lista de profesores de una escuela.
     public JButton btnConsultaGeneralProfes, btnVolverAPanelUni, btnIrConsultaGeneral; //Boton para mostrar la consulta general de los profesores
-    public JButton btnIrAgregarEstudiante, btnIrMostrarInformacionEstudiante; // Botones de gestionar estudiantes
+    public JButton btnVolverAgregarUniDesdeGestionarEstudiantes, btnIrAgregarEstudiante, btnIrMostrarInformacionEstudiante, btnIrModificarEstudiante; // Botones de gestionar estudiantes
+    public JButton btnVolverGestionarEstudiantesDesdeModificarEstudiante, btnBuscarUniModificarEstudiante, btnEcontrarEstudianteConCarnetCedula, btnModificarEstudiante;
     public JButton btnBuscarUniAgregarEstudiante, btnVolverGestionarEstudiantesDesdeAgregarEstudiante, btnAgregarEstudiante;
     public JButton btnBuscarUniMostrarInfoEstudiante, btnBuscarEstConCedulaCarnetMostrarInfoEst, btnVolverGestionarEstudiantesDesdeMostraInforEst, btnBuscarOtraUniMostrarInfoEst;
-    public JButton btnMatriculaIr,btnMatricularBuscar,btnMatriculaVolver,btnMatricular,btnDesMatricular;
+    public JButton btnMatriculaIr, btnMatricularBuscar, btnMatriculaVolver, btnMatricular, btnDesMatricular;
+    public JButton btnArancelesIr,btnAraancelesVolver,btnArancelesMostrar, btnArancelesBuscarU;
 
+    public JButton btnConsultaGeneralEstudianteLista, btnVolverAGestionarEstudiantes, btnIrConsultaGenEstudiante; //botones para el panel de consulta general estudiantil
 
     public JRadioButton jrbDirector;
     public JRadioButton jrbEstNacional;
     public JRadioButton jrbEstExtranjero;
 
-   // public BottonGrup bgTipoEstudiante;
+    // public BottonGrup bgTipoEstudiante;
 
     public PrincipalView() {
-
-
         layout = new CardLayout();
         panelContenedor = new JPanel(layout);
 
@@ -122,6 +134,7 @@ public class PrincipalView extends JFrame {
         metodoMostrarCursos();
         modificarCurso();
         eliminarCurso();
+        agregarGrupoACurso();
         gestionarProfesores();
         agregarProfesorEscuela();
         modificarProfesor();
@@ -133,7 +146,10 @@ public class PrincipalView extends JFrame {
         agregarEstudiantes();
         crearPanelConsultaGeneralP();
         mostrarInformacionEstudiante();
+        modificarEstudiante();
         panelMatricularEstudiante();
+        calculoDeAranceles();
+        consultaGeneralEstudiantil();
 
         // Agregamos los paneles al contenedor
         panelContenedor.add(panelFormularioU, "universidad");
@@ -145,6 +161,7 @@ public class PrincipalView extends JFrame {
         panelContenedor.add(panelVerCursos, "cursos");
         panelContenedor.add(panelModificarCurso, "modificarCurso");
         panelContenedor.add(panelEliminarCurso, "eliminarCurso");
+        panelContenedor.add(panelAgregarGrupoACurso, "agregarGrupoACurso");
         panelContenedor.add(panelGestionarProfesores, "gestionarProfesores");
         panelContenedor.add(panelConsultaGeneralProfesores, "consultaGeneralProfes");
         panelContenedor.add(panelAgregarProfesor, "agregarProfesor");
@@ -156,7 +173,10 @@ public class PrincipalView extends JFrame {
         panelContenedor.add(panelGestionarEstudiantes, "gestionarEstudiantes");
         panelContenedor.add(panelAgregarEstudiantes, "agregarEstudiantes");
         panelContenedor.add(panelMostrarInformacionEstudiante, "mostrarEstudiantes");
+        panelContenedor.add(panelModificarEstudiante, "modificarEstudiantes");
         panelContenedor.add(panelMatricularEstudiante, "matricularEstudiante");
+        panelContenedor.add(panelCalculoAranceles, "calculoAranceles");
+        panelContenedor.add(panelListaGeneralEstudiantil, "consultaGeneralE");
         add(panelContenedor, BorderLayout.CENTER);
     }
 
@@ -166,7 +186,7 @@ public class PrincipalView extends JFrame {
 
         panelFormularioU = new JPanel(new GridBagLayout());
         panelFormularioU.setBorder(BorderFactory.createTitledBorder(
-                BorderFactory.createLineBorder(new Color (0, 120, 215)), "Informacion de la Universidad",
+                BorderFactory.createLineBorder(new Color(0, 120, 215)), "Informacion de la Universidad",
                 TitledBorder.CENTER, TitledBorder.TOP, new Font("Arial", Font.BOLD, 16), Color.WHITE));
         GridBagConstraints m = new GridBagConstraints();
         m.insets = new Insets(20, 20, 20, 20);
@@ -205,22 +225,26 @@ public class PrincipalView extends JFrame {
         btnCambiar = new JButton("Universidad");
         panelFormularioU.add(btnCambiar, m);
 
-        m.gridx = 1;
+        m.gridx++;
         btnIrE = new JButton("Escuelas");
         panelFormularioU.add(btnIrE, m);
+
+        m.gridx++;
+        btnGestionarEstudiantes = new JButton("Estudiantes");
+        panelFormularioU.add(btnGestionarEstudiantes, m);
 
         m.gridy++;
         m.gridx = 0;
         btnAgregarCursos = new JButton("Cursos");
         panelFormularioU.add(btnAgregarCursos, m);
 
-        m.gridx = 1;
-        btnIrGestionarProfesores = new JButton("Profesores");
-        panelFormularioU.add(btnIrGestionarProfesores, m);
+        m.gridx++;
+        btnIrAgregarGrupoACurso = new JButton("Grupos");
+        panelFormularioU.add(btnIrAgregarGrupoACurso, m);
 
         m.gridx++;
-        btnGestionarEstudiantes = new JButton("Estudiantes");
-        panelFormularioU.add(btnGestionarEstudiantes, m);
+        btnIrGestionarProfesores = new JButton("Profesores");
+        panelFormularioU.add(btnIrGestionarProfesores, m);
     }
 
     // Panel de Escuelas
@@ -239,34 +263,34 @@ public class PrincipalView extends JFrame {
         m.gridy = 0;
         btnBuscarNombreU = new JButton();
         btnBuscarNombreU.setText("Buscar universidad");
-        panelModificarU.add(btnBuscarNombreU,m);
+        panelModificarU.add(btnBuscarNombreU, m);
 
         m.gridx++;
         txtName2 = new JTextField();
-        panelModificarU.add(txtName2,m);
+        panelModificarU.add(txtName2, m);
 
 
         m.gridx = 0;
         m.gridy = 2;
-        panelModificarU.add(new JLabel("DirecciÃ³n de la Universidad"),m);
+        panelModificarU.add(new JLabel("DirecciÃ³n de la Universidad"), m);
         m.gridx++;
         txtAddress2 = new JTextField();
-        panelModificarU.add(txtAddress2,m);
+        panelModificarU.add(txtAddress2, m);
 
 
         m.gridx = 0;
         m.gridy = 1;
-        panelModificarU.add(new JLabel("TelÃ©fono de la Universidad"),m);
+        panelModificarU.add(new JLabel("TelÃ©fono de la Universidad"), m);
         m.gridx++;
         txtNumber2 = new JTextField();
-        panelModificarU.add(txtNumber2,m);
+        panelModificarU.add(txtNumber2, m);
 
         m.gridy++;
         m.gridx = 2;
         btnModificar2 = new JButton("Modificar Universidad");
-        btnModificar2.setPreferredSize(new Dimension(200,40));
+        btnModificar2.setPreferredSize(new Dimension(200, 40));
         btnModificar2.setEnabled(false);
-        panelModificarU.add(btnModificar2,m);
+        panelModificarU.add(btnModificar2, m);
 
 
         m.gridx = 1;
@@ -420,20 +444,21 @@ public class PrincipalView extends JFrame {
         JLabel labelBuscarUni = new JLabel("Ingrese la universidad en la que desea registrar un curso:");
         labelBuscarUni.setFont(font);
         panelAgregarCurso.add(labelBuscarUni, m);
-        m.gridx = 1;
+        m.gridx++;
         txtBuscarUniRegistrarCurso = new JTextField(20);
         txtBuscarUniRegistrarCurso.setFont(font);
         panelAgregarCurso.add(txtBuscarUniRegistrarCurso, m);
 
         //  buscar universidad
-      ;
-        m.gridx = 2;
+        ;
+        m.gridx++;
         btnBuscarUniRegistrarCurso = new JButton("Buscar universidad");
         btnBuscarUniRegistrarCurso.setFont(font);
         panelAgregarCurso.add(btnBuscarUniRegistrarCurso, m);
 
         //buscar otra universidad
-
+        m.gridx++;
+        m.gridy++;
         btnBuscarNuevaUni = new JButton("Buscar otra universidad");
         btnBuscarNuevaUni.setEnabled(false);
         btnBuscarNuevaUni.setFont(font);
@@ -441,13 +466,12 @@ public class PrincipalView extends JFrame {
 
         //ComboBox escuelas
         m.gridy++;
-        m.gridwidth = 1;
         m.gridx = 0;
         JLabel labelEscuela = new JLabel("Seleccione una escuela donde se agregara el curso:");
         labelEscuela.setFont(font);
         panelAgregarCurso.add(labelEscuela, m);
 
-        m.gridx = 1;
+        m.gridx++;
         cbEscuelasRegistrarCurso = new JComboBox<>();
         cbEscuelasRegistrarCurso.addItem("Aca se mostraran las escuelas de los cursos");
         cbEscuelasRegistrarCurso.setFont(font);
@@ -455,7 +479,7 @@ public class PrincipalView extends JFrame {
 
         // Campo sigla curso
         m.gridy++;
-        m.gridx --;
+        m.gridx = 0;
         JLabel labelSigla = new JLabel("Ingrese la sigla del curso:");
         labelSigla.setFont(font);
         panelAgregarCurso.add(labelSigla, m);
@@ -465,38 +489,19 @@ public class PrincipalView extends JFrame {
         txtSiglaCursoAgregar.setFont(font);
         panelAgregarCurso.add(txtSiglaCursoAgregar, m);
 
+        m.gridy++;
         // Campo nombre curso
-
         JLabel labelNombreCurso = new JLabel("Ingrese el nombre del curso a agregar:");
         labelNombreCurso.setFont(font);
-        m.gridy = 4;
         panelAgregarCurso.add(labelNombreCurso, m);
 
-        m.gridx = 0;
+        m.gridy++;
         txtNombreCursoAgregar = new JTextField(20);
         txtNombreCursoAgregar.setFont(font);
         m.gridy = 5;
-
         panelAgregarCurso.add(txtNombreCursoAgregar, m);
 
-        // Botones finales
-        m.gridy=12;
-        m.gridx = 0;
-        m.gridwidth = 2;
-        btnCambiar4 = new JButton("Volver al registro de universidades");
-        btnCambiar4.setFont(font);
-        panelAgregarCurso.add(btnCambiar4, m);
-
-        m.gridwidth = 1;
         m.gridy++;
-        m.gridy=11;
-        m.gridx = 0;
-        btnModificarCurso = new JButton("Modificar informacion de un curso");
-        btnModificarCurso.setFont(font);
-        btnModificarCurso.setBackground(new Color(0, 120, 215));
-        panelAgregarCurso.add(btnModificarCurso, m);
-
-        m.gridy=6;
         m.gridx = 0;
         m.gridwidth = 2;
         btnRegistrarCurso = new JButton("Agregar curso!");
@@ -507,29 +512,42 @@ public class PrincipalView extends JFrame {
         panelAgregarCurso.add(btnRegistrarCurso, m);
 
         m.gridwidth = 1;
-        m.gridy=10;
-       m.gridx = 0;
+        m.gridy++;
+        m.gridx = 0;
 
         btnConsultarCurso = new JButton("Ver informacion de un curso");
         btnConsultarCurso.setFont(font);
         btnConsultarCurso.setBackground(new Color(0, 120, 215));
         panelAgregarCurso.add(btnConsultarCurso, m);
 
-        m.gridy=10;
-        m.gridx = 1;
-
+        m.gridx++;
         btnIrEliminarCurso = new JButton("Eliminar un curso");
         btnIrEliminarCurso.setFont(font);
         btnIrEliminarCurso.setBackground(new Color(220, 53, 69));
         panelAgregarCurso.add(btnIrEliminarCurso, m);
 
         m.gridy++;
-        m.gridx = 1;
+        m.gridx = 0;
+        btnModificarCurso = new JButton("Modificar informacion de un curso");
+        btnModificarCurso.setFont(font);
+        btnModificarCurso.setBackground(new Color(0, 120, 215));
+        panelAgregarCurso.add(btnModificarCurso, m);
 
+
+        m.gridx++;
         btnverLisCursos = new JButton("Ver cursos");
         btnverLisCursos.setFont(font);
         btnverLisCursos.setBackground(new Color(0, 120, 215));
         panelAgregarCurso.add(btnverLisCursos, m);
+
+        // Botones finales
+        m.gridy++;
+        m.gridx = 0;
+        m.gridwidth = 2;
+        btnCambiar4 = new JButton("Volver al registro de universidades");
+        btnCambiar4.setFont(font);
+        panelAgregarCurso.add(btnCambiar4, m);
+
     }
 
     public void mostrarCurso() {
@@ -601,6 +619,7 @@ public class PrincipalView extends JFrame {
         btnVolverAgregarCursos.setFont(font);
         panelMostrarCurso.add(btnVolverAgregarCursos, m);
     }
+
     public void metodoMostrarCursos() {
         panelVerCursos = new JPanel(new GridBagLayout());
         panelVerCursos.setBorder(BorderFactory.createTitledBorder(
@@ -681,6 +700,7 @@ public class PrincipalView extends JFrame {
         btnVolUni.setFont(font);
         panelVerCursos.add(btnVolUni, m);
     }
+
     public void modificarCurso() {
 
         panelModificarCurso = new JPanel(new GridBagLayout());
@@ -740,6 +760,7 @@ public class PrincipalView extends JFrame {
         panelModificarCurso.add(btnVolverACursos, gbc);
 
     }
+
     public void eliminarCurso() {
         panelEliminarCurso = new JPanel(new GridBagLayout());
         panelEliminarCurso.setBackground(Color.darkGray);
@@ -777,7 +798,7 @@ public class PrincipalView extends JFrame {
         gbc.gridy = 1;
         gbc.gridwidth = 3;
         btnEliminarCurso = new JButton(" Eliminar curso");
-       // btnEliminarCurso.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        // btnEliminarCurso.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btnEliminarCurso.setBackground(new Color(220, 53, 69)); // Rojo moderno
         btnEliminarCurso.setForeground(Color.WHITE);
         btnEliminarCurso.setFocusPainted(false);
@@ -798,6 +819,66 @@ public class PrincipalView extends JFrame {
 
     }
 
+    public void agregarGrupoACurso(){
+        panelAgregarGrupoACurso = new JPanel(new GridBagLayout());
+        panelAgregarGrupoACurso.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(new Color(100, 120, 215)), "Panel para agregar un nuevo grupo a un curso existente",
+                TitledBorder.LEFT, TitledBorder.TOP, new Font("Arial", Font.BOLD, 30), Color.WHITE));
+        GridBagConstraints m = new GridBagConstraints();
+        m.insets = new Insets(20, 20, 50, 20);
+        m.fill = GridBagConstraints.HORIZONTAL;
+
+        m.gridy = 0;
+        m.gridx = 0;
+        panelAgregarGrupoACurso.add(new JLabel("Seleccione la universidad a la que pertenece el curso donde se agregara el grupo"), m);
+
+        m.gridx++;
+        txtBuscarUniAgregarGrupo = new JTextField(15);
+        panelAgregarGrupoACurso.add(txtBuscarUniAgregarGrupo, m);
+
+        m.gridx++;
+        btnBuscarUniAgregarGrupo = new JButton("Buscar universidad");
+        panelAgregarGrupoACurso.add(btnBuscarUniAgregarGrupo, m);
+
+        m.gridy++;
+        m.gridx = 1;
+        panelAgregarGrupoACurso.add(new JLabel("Seleccione una escuela para mostrar sus cursos disponibles"), m);
+
+        m.gridx++;
+        cbEscuelasAgregarGrupo = new JComboBox<>();
+        cbEscuelasAgregarGrupo.setEnabled(false);
+        panelAgregarGrupoACurso.add(cbEscuelasAgregarGrupo, m);
+
+        m.gridy++;
+        m.gridx = 1;
+        panelAgregarGrupoACurso.add(new JLabel("Seleccione el curso donde se agregará el nuevo grupo"), m);
+
+        m.gridx++;
+        cbCursosAgregarGrupo = new JComboBox<>();
+        cbCursosAgregarGrupo.setEnabled(false);
+        panelAgregarGrupoACurso.add(cbCursosAgregarGrupo, m);
+
+        m.gridy++;
+        m.gridx = 1;
+        panelAgregarGrupoACurso.add(new JLabel("Escriba la sigla del grupo a agregar al curso"), m);
+
+        m.gridx++;
+        txtSiglaGrupoAgregarGrupo = new JTextField(15);
+        txtSiglaGrupoAgregarGrupo.setEditable(false);
+        panelAgregarGrupoACurso.add(txtSiglaGrupoAgregarGrupo, m);
+
+        m.gridy++;
+        m.gridx = 0;
+        btnVolverAgregarUniDesdeAgregarGrupo = new JButton("Volver a agregar universidad");
+        panelAgregarGrupoACurso.add(btnVolverAgregarUniDesdeAgregarGrupo, m);
+
+        m.gridx++;
+        m.gridwidth = 2;
+        btnAgregarGrupoACurso = new JButton("Agregar grupo");
+        btnAgregarGrupoACurso.setEnabled(false);
+        panelAgregarGrupoACurso.add(btnAgregarGrupoACurso, m);
+    }
+
     public void gestionarProfesores() {
         panelGestionarProfesores = new JPanel(new GridBagLayout());
         panelGestionarProfesores.setBorder(BorderFactory.createTitledBorder(
@@ -809,51 +890,53 @@ public class PrincipalView extends JFrame {
 
         m.gridy = 0;
         m.gridx = 0;
-        panelGestionarProfesores.add(new JLabel("Boton para ir a gestionar profesores"), m);
+        panelGestionarProfesores.add(new JLabel("Botón para ir a gestionar profesores"), m);
 
-        m.gridx++;
+        m.gridx = 1;
         panelGestionarProfesores.add(new JLabel("Botones para gestionar o consultar cursos"), m);
 
-        m.gridx++;
-        panelGestionarProfesores.add(new JLabel("Boton para consultar escuelas"), m);
+        m.gridx = 2;
+        panelGestionarProfesores.add(new JLabel("Botón para consultar escuelas"), m);
 
-        m.gridx++;
-        btnVolverAgregarUniDesdeGestionarProfesores = new JButton("Volver al panel de universidades");
-        btnVolverAgregarUniDesdeGestionarProfesores.setPreferredSize(new Dimension(200,40));
-        panelGestionarProfesores.add(btnVolverAgregarUniDesdeGestionarProfesores, m);
+        m.gridx = 3;
+        panelGestionarProfesores.add(new JLabel("Volver al panel de universidades"), m);
 
-        m.gridx = 0;
+// Fila 1: Botones funcionales
         m.gridy = 1;
+        m.gridx = 0;
         btnGestionarProfesores = new JButton("Gestionar profesores");
-        btnGestionarProfesores.setPreferredSize(new Dimension(200,50));
+        btnGestionarProfesores.setPreferredSize(new Dimension(200, 50));
         panelGestionarProfesores.add(btnGestionarProfesores, m);
 
-        m.gridx++;
+        m.gridx = 1;
         btnGestionCursosProfesores = new JButton("Gestionar cursos");
-        btnGestionCursosProfesores.setPreferredSize(new Dimension(200,50));
+        btnGestionCursosProfesores.setPreferredSize(new Dimension(200, 50));
         panelGestionarProfesores.add(btnGestionCursosProfesores, m);
-        m.gridx = 3;
-        m.gridy=1   ;
-        btnConsultarCursoProfesores = new JButton("Consultar sobre cursos");
-        btnConsultarCursoProfesores.setPreferredSize(new Dimension(200,50));
-        panelGestionarProfesores.add(btnConsultarCursoProfesores, m);
 
-        m.gridy = 1;
-        m.gridx=2;
-        btnConsultarEscuelaProfesores = new JButton("Comsultar sobre escuelas");
-        btnConsultarEscuelaProfesores.setPreferredSize(new Dimension(200,50));
+        m.gridx = 2;
+        btnConsultarEscuelaProfesores = new JButton("Consultar sobre escuelas");
+        btnConsultarEscuelaProfesores.setPreferredSize(new Dimension(200, 50));
         panelGestionarProfesores.add(btnConsultarEscuelaProfesores, m);
 
+        m.gridx = 3;
+        btnVolverAgregarUniDesdeGestionarProfesores = new JButton("Volver al panel de universidades");
+        btnVolverAgregarUniDesdeGestionarProfesores.setPreferredSize(new Dimension(200, 50));
+        panelGestionarProfesores.add(btnVolverAgregarUniDesdeGestionarProfesores, m);
+
+// Fila 2: Botón adicional
+        m.gridy = 2;
+        m.gridx = 0;
+        m.gridwidth = 4; // Para que ocupe todo el ancho
         btnIrConsultaGeneral = new JButton("Ir a consulta general");
-        m.gridx++;
-        m.gridy++;
+        btnIrConsultaGeneral.setPreferredSize(new Dimension(200, 50));
         panelGestionarProfesores.add(btnIrConsultaGeneral, m);
+        m.gridwidth = 1;
 
     }
 
-    public void agregarProfesorEscuela(){
+    public void agregarProfesorEscuela() {
         panelAgregarProfesor = new JPanel();
-        panelAgregarProfesor.setLayout(new GridLayout(8,3));
+        panelAgregarProfesor.setLayout(new GridLayout(8, 3));
         panelAgregarProfesor.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(Color.green), "Agregar un nuevo profesor a una escuela",
                 TitledBorder.LEFT, TitledBorder.TOP, new Font("Arial", Font.BOLD, 14)));
@@ -913,7 +996,7 @@ public class PrincipalView extends JFrame {
         panelAgregarProfesor.add(btnAgregarProfesor);
     }
 
-    public void modificarProfesor(){
+    public void modificarProfesor() {
         panelModificarProfesor = new JPanel(new GridBagLayout());
         panelModificarProfesor.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(new Color(0, 120, 215)), "Modificar al informacion del profesor",
@@ -999,7 +1082,7 @@ public class PrincipalView extends JFrame {
         panelModificarProfesor.add(btnModificarInformacionProfesor, m);
     }
 
-    public void mostrarInformacionProfesor(){
+    public void mostrarInformacionProfesor() {
         panelMostrarInformacionProfesor = new JPanel(new GridBagLayout());
         panelMostrarInformacionProfesor.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(new Color(0, 120, 215)), "Mostrar la informacion del profesor",
@@ -1059,7 +1142,7 @@ public class PrincipalView extends JFrame {
         panelMostrarInformacionProfesor.add(btnBuscarOtraUniMostrarProfesor, m);
     }
 
-    public void ListaProfesDeUnaEscuela(){
+    public void ListaProfesDeUnaEscuela() {
         panelListaProfesDeUnaEscuela = new JPanel(new GridBagLayout());
         panelListaProfesDeUnaEscuela.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(new Color(0, 120, 215)),
@@ -1130,7 +1213,6 @@ public class PrincipalView extends JFrame {
         panelListaProfesDeUnaEscuela.add(btnVolverListaProfesDeUnaEscuela, m);
 
 
-
     }
 
     public void asignarProfesorCurso() {
@@ -1190,31 +1272,40 @@ public class PrincipalView extends JFrame {
         cbListaCursos.addItem(null);
         panelAsignarProfeCurso.add(cbListaCursos, m);
 
-// Fila 4: Botón asignar profesor
+// FIla 4: ComboBox grupo/s del curso
         m.gridx = 0;
         m.gridy = 4;
+        panelAsignarProfeCurso.add(new JLabel("Seleccione un grupo del curso donde se asignara el profesor"), m);
+
+// Fila 4 columna 2
+        m.gridx++;
+        cbGruposDelCurso = new JComboBox<>();
+        panelAsignarProfeCurso.add(cbGruposDelCurso, m);
+
+// Fila 5: Botón asignar profesor
+        m.gridx = 0;
+        m.gridy = 5;
         btnAsignarProfeCurso = new JButton("Asignar profesor");
         panelAsignarProfeCurso.add(btnAsignarProfeCurso, m);
 
-// Fila 4: Botón desasignar profesor
+// Fila 5: Botón desasignar profesor
         m.gridx = 1;
         btnDesasignarProfeCurso = new JButton("Desasignar profesor");
         panelAsignarProfeCurso.add(btnDesasignarProfeCurso, m);
 
-// Fila 5: Botón ir a lista de cursos asignados
+// Fila 6: Botón ir a lista de cursos asignados
         m.gridx = 0;
-        m.gridy = 5;
+        m.gridy = 6;
 
         btnIrListaCurososAsigandosProfesor = new JButton("Ir a lista de cursos asignados al profesor");
         panelAsignarProfeCurso.add(btnIrListaCurososAsigandosProfesor, m);
- // fila 5 columna 1 lista de profesores en una escuela
+// fila 6 columna 1 lista de profesores en una escuela
         m.gridx = 1;
-        m.gridy = 5;
         btnIrListaProfesDeUnaEscuela = new JButton("Ir a lista de profesores de una escuela");
         panelAsignarProfeCurso.add(btnIrListaProfesDeUnaEscuela, m);
     }
 
-    public void mostrarListaCursosAsignadosProfesor(){
+    public void mostrarListaCursosAsignadosProfesor() {
         panelListaCursosAsignadosProfesor = new JPanel(new GridBagLayout());
         panelListaCursosAsignadosProfesor.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(new Color(0, 120, 215)), "Cursos asignados al profesor",
@@ -1309,7 +1400,7 @@ public class PrincipalView extends JFrame {
         panelConsultaGeneralProfesores.add(btnVolverAPanelUni, m);
     }
 
-    public void gestionarEstudiante(){
+    public void gestionarEstudiante() {
         panelGestionarEstudiantes = new JPanel(new GridBagLayout());
         panelGestionarEstudiantes.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(new Color(0, 120, 215)), "Seleccione que desea hacer",
@@ -1319,9 +1410,13 @@ public class PrincipalView extends JFrame {
         m.fill = GridBagConstraints.HORIZONTAL;
 
         m.gridx = 0;
-        m.gridy = 0;
+        m.gridy = 1;
+        btnVolverAgregarUniDesdeGestionarEstudiantes = new JButton("Volver a agregar universidades");
+        panelGestionarEstudiantes.add(btnVolverAgregarUniDesdeGestionarEstudiantes, m);
 
-        panelGestionarEstudiantes.add(new JLabel("Agregar / Mostrar datos / Modificar estudiantes"), m);
+        m.gridx++;
+        m.gridy = 0;
+        panelGestionarEstudiantes.add(new JLabel("Agregar / Mostrar datos / Modificar estudiantes / Consulta general estudiantil"), m);
 
         m.gridy++;
         btnIrAgregarEstudiante = new JButton("Ir a agregar estudiante");
@@ -1331,11 +1426,29 @@ public class PrincipalView extends JFrame {
         btnIrMostrarInformacionEstudiante = new JButton("Ir a mostrar informacion de estudiantes");
         panelGestionarEstudiantes.add(btnIrMostrarInformacionEstudiante, m);
         m.gridy++;
-        btnMatriculaIr = new JButton ("Matricular estudiante");
+        btnIrModificarEstudiante = new JButton("Ir a modificar estudiante");
+        panelGestionarEstudiantes.add(btnIrModificarEstudiante, m);
+
+        m.gridx++;
+        m.gridy = 0;
+        panelGestionarEstudiantes.add(new JLabel("Matricular / Consultar aranceles / Consulta general estudiantil"), m);
+
+        m.gridy++;
+        btnMatriculaIr = new JButton("Matricular estudiante");
         panelGestionarEstudiantes.add(btnMatriculaIr, m);
+
+        m.gridy++;
+        //boton para el calculo de aranceles
+        btnArancelesIr = new JButton("colsulta de aranceles");
+        panelGestionarEstudiantes.add(btnArancelesIr, m);
+
+        //boton para ir a la consulta general
+        m.gridy++;
+        btnIrConsultaGenEstudiante = new JButton("Ir a consulta general estudiantil");
+        panelGestionarEstudiantes.add(btnIrConsultaGenEstudiante,m);
     }
 
-    public void agregarEstudiantes(){
+    public void agregarEstudiantes() {
         panelAgregarEstudiantes = new JPanel(new GridBagLayout());
         panelAgregarEstudiantes.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(new Color(0, 120, 215)), "Seleccione que desea hacer",
@@ -1434,7 +1547,7 @@ public class PrincipalView extends JFrame {
         panelAgregarEstudiantes.add(btnAgregarEstudiante, m);
     }
 
-    public void mostrarInformacionEstudiante(){
+    public void mostrarInformacionEstudiante() {
         panelMostrarInformacionEstudiante = new JPanel(new GridBagLayout());
         panelMostrarInformacionEstudiante.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(new Color(0, 120, 215)), "Seleccione que desea hacer",
@@ -1494,9 +1607,94 @@ public class PrincipalView extends JFrame {
         panelMostrarInformacionEstudiante.add(btnBuscarOtraUniMostrarInfoEst, m);
     }
 
+    public void modificarEstudiante(){
+        panelModificarEstudiante = new JPanel(new GridBagLayout());
+        panelModificarEstudiante.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(new Color(0, 120, 215)), "Modificar la información de un estudiante",
+                TitledBorder.LEFT, TitledBorder.TOP, new Font("Arial", Font.BOLD, 16), Color.WHITE));
+        GridBagConstraints m = new GridBagConstraints();
+        m.insets = new Insets(20, 20, 20, 20);
+        m.fill = GridBagConstraints.HORIZONTAL;
+
+        m.gridx = 0;
+        m.gridy = 0;
+        panelModificarEstudiante.add(new JLabel("Digite el nombre de la universidad donde se buscara el estudiante"), m);
+
+        m.gridx++;
+        txtBuscarUniModificarEstudiante = new JTextField(15);
+        panelModificarEstudiante.add(txtBuscarUniModificarEstudiante, m);
+
+        m.gridx++;
+        btnBuscarUniModificarEstudiante = new JButton("Buscar universidad");
+        panelModificarEstudiante.add(btnBuscarUniModificarEstudiante, m);
+
+        m.gridx = 0;
+        m.gridy++;
+        panelModificarEstudiante.add(new JLabel("Escriba la cedula o carnet del estudiante para modificar su informacion"), m);
+
+        m.gridx++;
+        txtBuscarEstudianteModificarEstudiante = new JTextField(15);
+        txtBuscarEstudianteModificarEstudiante.setEditable(false);
+        panelModificarEstudiante.add(txtBuscarEstudianteModificarEstudiante, m);
+
+        m.gridx++;
+        btnEcontrarEstudianteConCarnetCedula = new JButton("Buscar estudiante");
+        btnEcontrarEstudianteConCarnetCedula.setEnabled(false);
+        panelModificarEstudiante.add(btnEcontrarEstudianteConCarnetCedula, m);
+
+        m.gridx = 1;
+        m.gridy++;
+        panelModificarEstudiante.add(new JLabel("Nombre del estudiante"), m);
+
+        m.gridx++;
+        txtNombreModificarEstudiante = new JTextField();
+        txtNombreModificarEstudiante.setEditable(false);
+        panelModificarEstudiante.add(txtNombreModificarEstudiante, m);
+
+        m.gridy++;
+        m.gridx = 1;
+        panelModificarEstudiante.add(new JLabel("Primer apellido del estudiante"), m);
+
+        m.gridx++;
+        txtApellido1ModificarEstudiante = new JTextField();
+        txtApellido1ModificarEstudiante.setEditable(false);
+        panelModificarEstudiante.add(txtApellido1ModificarEstudiante, m);
+
+        m.gridy++;
+        m.gridx = 1;
+        panelModificarEstudiante.add(new JLabel("Primer apellido del estudiante"), m);
+
+        m.gridx++;
+        txtApellido2ModificarEstudiante = new JTextField();
+        txtApellido2ModificarEstudiante.setEditable(false);
+        panelModificarEstudiante.add(txtApellido2ModificarEstudiante, m);
+
+        m.gridy++;
+        m.gridx = 1;
+        panelModificarEstudiante.add(new JLabel("Nacionalidad del estudiante"), m);
+
+        m.gridx++;
+        cbNacionalidadEstudianteModificarEstudiante = new JComboBox<>();
+        //cbNacionalidadEstudianteModificarEstudiante.addItem("Nacional");
+        //cbNacionalidadEstudianteModificarEstudiante.addItem("Extranjero");
+        cbNacionalidadEstudianteModificarEstudiante.setEnabled(false);
+        panelModificarEstudiante.add(cbNacionalidadEstudianteModificarEstudiante, m);
+
+        m.gridy++;
+        m.gridx = 0;
+        btnVolverGestionarEstudiantesDesdeModificarEstudiante = new JButton("Volver a gestionar estudiantes");
+        panelModificarEstudiante.add(btnVolverGestionarEstudiantesDesdeModificarEstudiante, m);
+
+        m.gridx++;
+        m.gridwidth = 2;
+        btnModificarEstudiante = new JButton("Modificar estudiante");
+        btnModificarEstudiante.setEnabled(false);
+        panelModificarEstudiante.add(btnModificarEstudiante, m);
+    }
+
     //punto 4, cuarto avence
     //matricula de estudiante
-    public void panelMatricularEstudiante(){
+    public void panelMatricularEstudiante() {
         panelMatricularEstudiante = new JPanel(new GridBagLayout());
         panelMatricularEstudiante.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(new Color(0, 120, 215)), "Bienvenido a la Matricula estudiante :D",
@@ -1560,6 +1758,80 @@ public class PrincipalView extends JFrame {
         panelMatricularEstudiante.add(btnMatriculaVolver, m);
 
 
-
     }
+
+    public void calculoDeAranceles() {
+        panelCalculoAranceles = new JPanel(new GridBagLayout());
+        panelCalculoAranceles.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(0, 120, 215)), "Bienvenido al calculo de aranceles :D",
+                TitledBorder.CENTER, TitledBorder.TOP, new Font("Arial", Font.BOLD, 16), Color.WHITE));
+        GridBagConstraints m = new GridBagConstraints();
+        m.insets = new Insets(20, 20, 20, 20);
+        m.fill = GridBagConstraints.HORIZONTAL;
+
+        panelCalculoAranceles.add(new JLabel("Escriba el nombre de la Universidad"), m);
+        txtCalculoArancelesBuscarU = new JTextField(15);
+        panelCalculoAranceles.add(txtCalculoArancelesBuscarU, m);
+        m.gridy = 1;
+        panelCalculoAranceles.add(new JLabel("Escriba el ID del estudiante"), m);
+        txtCalculoArancelesBuscarID = new JTextField(15);
+        panelCalculoAranceles.add(txtCalculoArancelesBuscarID, m);
+
+        m.gridx = 2;
+        btnArancelesMostrar = new JButton("Mostrar todos los calculos");
+        panelCalculoAranceles.add(btnArancelesMostrar, m);
+        m.gridx = 3;
+        btnAraancelesVolver = new JButton("Volver");
+        panelCalculoAranceles.add(btnAraancelesVolver, m);
+    }
+
+    //panel de consulta general de estudiantes
+    public void consultaGeneralEstudiantil() {
+        panelListaGeneralEstudiantil = new JPanel(new GridBagLayout());
+        panelListaGeneralEstudiantil.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(Color.BLUE),
+                "Consulta General de Estudiantes por Curso",
+                TitledBorder.LEFT, TitledBorder.TOP, new Font("Arial", Font.BOLD, 14)));
+
+        GridBagConstraints c = new GridBagConstraints();
+        c.insets = new Insets(10, 10, 10, 10);
+        c.fill = GridBagConstraints.HORIZONTAL;
+
+        // ComboBox para seleccionar la consulta
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 2;
+        cbConsultaGeneralEstudiantesporCurso = new JComboBox<>(new String[]{
+                "Estudiantes nacionales por curso",
+                "Estudiantes extranjeros por curso",
+                "Todos los estudiantes por curso"
+        });
+        panelListaGeneralEstudiantil.add(cbConsultaGeneralEstudiantesporCurso, c);
+
+        // JTextArea para mostrar el resultado
+        c.gridy = 1;
+        c.gridwidth = 2;
+        jtaMostrarConsultaGeneralEstudiantes = new JTextArea(20, 40);
+        jtaMostrarConsultaGeneralEstudiantes.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(jtaMostrarConsultaGeneralEstudiantes);
+        panelListaGeneralEstudiantil.add(scrollPane, c);
+
+        // Botón de consulta
+        c.gridy = 2;
+        c.gridx = 0;
+        c.gridwidth = 1;
+        btnConsultaGeneralEstudianteLista = new JButton("Consultar");
+        panelListaGeneralEstudiantil.add(btnConsultaGeneralEstudianteLista, c);
+
+        // Botón para volver
+        c.gridx = 1;
+        btnVolverAGestionarEstudiantes = new JButton("Volver a gestionar estudiantes");
+        panelListaGeneralEstudiantil.add(btnVolverAGestionarEstudiantes, c);
+    }
+
+    //gets para acceder a al componente comboBox
+    public JComboBox<String> getCbConsultaGeneralEstudiantesporCurso(){
+        return cbConsultaGeneralEstudiantesporCurso;
+    }
+
+
 }
