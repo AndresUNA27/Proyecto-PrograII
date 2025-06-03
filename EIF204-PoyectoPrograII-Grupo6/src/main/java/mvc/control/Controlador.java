@@ -1165,6 +1165,7 @@ public class Controlador {
             Universidad u = buscarUniversidadConNombre(pNameU);
             u.setVarAddresU(addressU);
             u.setVarNumberU(numberU);
+            JsonManager.guardar("universidaads.json", varListaUnis);
             JOptionPane.showMessageDialog(null, "La direccion y el numero de telefono han sido modificados exitosamente");
             varPrincipal.btnBuscarNombreU.setEnabled(true);
             varPrincipal.txtName2.setEditable(true);
@@ -1212,6 +1213,7 @@ public class Controlador {
 
             Escuela school = new Escuela(pNameE);
             u.agregarEscuela(school);
+            JsonManager.guardar("escuelas.json", varListaEscuelas);
             varPrincipal.btnBuscarNombreU.setEnabled(true);
             varPrincipal.txtNameEscuelaUniBuscar.setEditable(true);
             varPrincipal.btnEscuelaBuscarUni.setEnabled(true);
@@ -1299,6 +1301,7 @@ public class Controlador {
                 Curso curso = new Curso(pSigla, pNombre, pEscuela);
                 e.agregarCurso(curso);
                 JOptionPane.showMessageDialog(null, "Curso agregado exitosamente a la " + pEscuela);
+                JsonManager.guardar("cursos.json", varListaCursos);
                 varPrincipal.btnBuscarUniRegistrarCurso.setEnabled(true);
                 varPrincipal.txtBuscarUniRegistrarCurso.setEditable(true);
                 varPrincipal.btnBuscarNuevaUni.setEnabled(false);
@@ -1410,7 +1413,7 @@ public class Controlador {
                 Curso curso = esc.getCursoConSigla(siglaAntigua);
                 if (curso != null) {
                     curso.setNombre(nuevoNombre);
-
+                    JsonManager.guardar("cursos.json", varListaCursos);
                     JOptionPane.showMessageDialog(null, "Curso modificado exitosamente.");
                     varPrincipal.btnModCursoP.setEnabled(false);
                     limpiarCamposModificadosCurso();
@@ -1429,7 +1432,8 @@ public class Controlador {
             for (Escuela esc : u.getEscuelas()) {
                 Curso curso = esc.getCursoConSigla(sigla);
                 if (curso != null) {
-                    esc.getCursos().remove(curso); // Aquï¿½ eliminamos el curso
+                    esc.getCursos().remove(curso);// Aquï¿½ eliminamos el curso
+                    JsonManager.guardar("cursos.json", varListaCursos);
                     JOptionPane.showMessageDialog(null, "Curso eliminado correctamente");
                     eliminado = true;
                     varPrincipal.txtEliminarCursoPorSigla.setText("");
@@ -1486,6 +1490,7 @@ public class Controlador {
             }
         }
         c.agregarGrupo(grupo);
+        JsonManager.guardar("grupos.json", varListaGrupos);
         JOptionPane.showMessageDialog(null, "Grupo con sigla " + pSiglaGrupo + " fue agregado exitosamente al curso " + pNombreCurso);
         varPrincipal.txtBuscarUniAgregarGrupo.setEditable(true);
         varPrincipal.txtBuscarUniAgregarGrupo.setText("");
@@ -1566,6 +1571,7 @@ public class Controlador {
             varListaProfesores = esc.getProfesores();
             Profesor profesor = new Profesor(numCedula, pNombreProfesor, pApellido1, pApellido2, varDirector, esc);
             esc.agregarProfesor(profesor);
+            JsonManager.guardar("profesores.json", varListaProfesores);
             JOptionPane.showMessageDialog(null, "Profesor agregado exitosamente a la " + pEscuela);
             varPrincipal.txtNumeroCedulaProfesor.setEnabled(false);
             varPrincipal.txtNombreProfesor.setEnabled(false);
@@ -1652,6 +1658,7 @@ public class Controlador {
                 p.setNombre(pNombreProfe);
                 p.setApellido1(pApellido1);
                 p.setApellido2(pApellido2);
+                JsonManager.guardar("profesores.json", varListaProfesores);
                 JOptionPane.showMessageDialog(null, "Profesor modificado exitosamente!!!!");
                 varPrincipal.lblEscribirUniModificarProfe.setVisible(true);
                 varPrincipal.txtBuscarUniModificarProfe.setVisible(true);
@@ -1804,7 +1811,6 @@ public class Controlador {
     }
 
     public boolean mostrarListaProfes2(String pNombreU) {
-        System.out.println("Se llamó a mostrarListaProfes2 con: " + pNombreU);
         if (pNombreU.isEmpty()) {
             JOptionPane.showMessageDialog(null, " Espacio en blanco, por favor ingrese un nombre de universidad");
             return false;
@@ -1910,6 +1916,7 @@ public class Controlador {
 
         profesorSeleccionado.asignarProfesorACurso(cursoSeleccionado);
         grupoSeleccionado.setProfesorPertenece(profesorSeleccionado);
+        JsonManager.guardar("grupos.json", varListaGrupos);
         JOptionPane.showMessageDialog(null, "Profesor asignado exitosamente al curso: " + cursoSeleccionado.getNombre() + ". Y grupo con sigla: " + grupoSeleccionado.getSiglaGrupo());
     }
 
@@ -1922,9 +1929,10 @@ public class Controlador {
             JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun profesor, curso o grupo, por favor seleccione uno...");
             return;
         }
-        if(grupoSeleccionado.getProfesorPertenece() == profesorSeleccionado){
+        if (grupoSeleccionado.getProfesorPertenece().equals(profesorSeleccionado)){
             profesorSeleccionado.desasignarProfesorACurso(cursoSeleccionado);
             grupoSeleccionado.setProfesorPertenece(null);
+            JsonManager.guardar("grupos.json", varListaGrupos);
             JOptionPane.showMessageDialog(null, "Profesor desasignado exitosamente al curso: " + cursoSeleccionado.getNombre());
             return;
         }
@@ -2081,6 +2089,7 @@ public class Controlador {
                 beca = (beca / 100);
                 EstudianteNacional p = new EstudianteNacional(numeroCedula, numeroCarnet, pNombreEst, pApellido1, pApellido2, "Nacional", beca);
                 u.agregarEstudianteNacional(p);
+                JsonManager.guardar("estudianteNacional",);
                 JOptionPane.showMessageDialog(null, "Estudiante nacional agregado a la " + u.getVarNameU() + "!!!");
             } else {
                 EstudianteExtranjero p = new EstudianteExtranjero(numeroCedula, numeroCarnet, pNombreEst, pApellido1, pApellido2, "Extranjero");
@@ -2244,7 +2253,7 @@ public class Controlador {
                         varPrincipal.txtApellido2ModificarEstudiante.getText(), "Extranjero");
                 u.cambiarDeNacionalidadEstudianteNacional(estNaCambiarNacionalidad.getNumeroCedulaEstudiante());
                 u.agregarEstudianteExtranjero(estudianteExtranjero);
-                JOptionPane.showMessageDialog(null, "Estudiante ahora es extrangero, modif correct");
+                JOptionPane.showMessageDialog(null, "Estudiante ahora es extranjero!!!!");
                 modificarOtroEstudiante();
                 return;
             }
@@ -2263,7 +2272,7 @@ public class Controlador {
                         varPrincipal.txtApellido2ModificarEstudiante.getText(), "Nacional", 0.0);
                 u.cambiarDeNacionalidadEstudianteExtranjero(estExCambiarNacionalidad.getNumeroCedulaEstudiante());
                 u.agregarEstudianteNacional(estudianteNacional);
-                JOptionPane.showMessageDialog(null, "Estudiante ahora es nacional por lo que tiene 0% de bexa XD, modif correct");
+                JOptionPane.showMessageDialog(null, "Estudiante ahora es nacional!!!");
                 modificarOtroEstudiante();
                 return;
             }
