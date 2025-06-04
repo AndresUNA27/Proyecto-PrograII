@@ -9,7 +9,7 @@ public class Profesor {
     private String apellido1;
     private String apellido2;
     private boolean director;
-    private Escuela escuelaPertenece;
+    private String nombreEscuelaPertenece;
     private ArrayList<Curso> cursosImpartidos;
 
     public Profesor(){
@@ -18,17 +18,17 @@ public class Profesor {
         this.apellido1 = "";
         this.apellido2 = "";
         this.director = false;
-        this.escuelaPertenece = null;
+        this.nombreEscuelaPertenece = "";
         this.cursosImpartidos = null;
     }
 
-    public Profesor(int pNumeroCedula, String pNombre, String pApellido1, String pApellido2, boolean pDirector, Escuela pEscuela){
+    public Profesor(int pNumeroCedula, String pNombre, String pApellido1, String pApellido2, boolean pDirector, String pNombreEscuelaPertenece){
         this.numeroCedula = pNumeroCedula;
         this.nombre = pNombre;
         this.apellido1 = pApellido1;
         this.apellido2 = pApellido2;
         this.director = pDirector;
-        this.escuelaPertenece = pEscuela;
+        this.nombreEscuelaPertenece = pNombreEscuelaPertenece ;
         this.cursosImpartidos = new ArrayList<>();
     }
 
@@ -63,8 +63,8 @@ public class Profesor {
 
     public boolean getDirector(){return this.director;}
 
-    public Escuela obtenerEscuelaPertenece(){
-        return escuelaPertenece;
+    public String obtenerEscuelaPertenece(){
+        return nombreEscuelaPertenece;
     }
 
     public ArrayList<Curso> obtenerCursosImpartidos(){
@@ -85,10 +85,10 @@ public class Profesor {
     }
 
     public String toString() {
-        return "Cedula = " + numeroCedula + "\n" +
-                " Nombre = " + nombre + "\n" +
-                " Primer apellido = " + apellido1 + "\n" +
-                " Segundo apellido = " + apellido2 + "\n" +
-                " Escuela donde fue registrado = " + (escuelaPertenece.getVarSchoolName());
+        return "Cedula: " + numeroCedula + "\n" +
+                " Nombre: " + nombre + "\n" +
+                " Primer apellido: " + apellido1 + "\n" +
+                " Segundo apellido: " + apellido2 + "\n" +
+                " Escuela donde fue registrado: " + nombreEscuelaPertenece;
     }
 }

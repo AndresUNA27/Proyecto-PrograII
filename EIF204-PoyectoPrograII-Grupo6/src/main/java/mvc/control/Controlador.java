@@ -1,6 +1,6 @@
 package mvc.control;
-//import com.google.gson.reflect.TypeToken;
-//import mvc.json.JsonManager;
+
+import mvc.json.JsonManager;
 import mvc.modelo.*;
 import mvc.view.PrincipalView;
 import mvc.modelo.Curso;
@@ -8,10 +8,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-//import java.lang.reflect.Type;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import com.google.gson.reflect.TypeToken;
 
 import static java.lang.Character.getType;
 
@@ -29,17 +30,22 @@ public class Controlador {
 
     //Constructor del controlador
     public Controlador(PrincipalView pVista) {
-//        Type tipo = new TypeToken<ArrayList<Universidad>>(){}.getType();
+//       Type tipo = new TypeToken<ArrayList<Universidad>>(){}.getType();
 //        varListaUnis = JsonManager.cargar("universidades.json", tipo);
 
-        this.varListaUnis = new ArrayList<>();
-        this.varListaEscuelas = new ArrayList<>();
-        this.varListaCursos = new ArrayList<>();
-        this.varListaProfesores = new ArrayList<>();
-        this.estudiantesNacionalesDeLaUniversidad = new ArrayList<>();
-        this.estudiantesExtranjerosDeLaUniversidad = new ArrayList<>();
-        this.varListaGrupos = new ArrayList<>();
+//        this.varListaUnis = new ArrayList<>();
+//        this.varListaEscuelas = new ArrayList<>();
+//        this.varListaCursos = new ArrayList<>();
+//        this.varListaProfesores = new ArrayList<>();
+//        this.estudiantesNacionalesDeLaUniversidad = new ArrayList<>();
+//        this.estudiantesExtranjerosDeLaUniversidad = new ArrayList<>();
+//        this.varListaGrupos = new ArrayList<>();
         this.varPrincipal = pVista;
+        Type tipo = new TypeToken<ArrayList<Universidad>>(){}.getType();
+        this.varListaUnis = JsonManager.cargar("universidades.json", tipo);
+        if (varListaUnis == null) {
+            varListaUnis = new ArrayList<>();
+        }
         agregarControlador();
     }
 
@@ -64,7 +70,6 @@ public class Controlador {
         actionListerListaProfesDeUnaEscuela();
         actionListenerVolverDesdeConsultaGeneral();
         actionListenerIrConsultaGeneral();
-
         actionListenerConsultaGeneralP();
         actionListenerGestionarEstudiantes();
         actionListenerAgregarEstudiante();
@@ -616,7 +621,7 @@ public class Controlador {
     }
 
     //action listener para la consulta general de los profesores
-    public void actionListenerConsultaGeneralP(){
+    public void actionListenerConsultaGeneralP() {
         this.varPrincipal.btnConsultaGeneralProfes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -624,16 +629,16 @@ public class Controlador {
                 int op = varPrincipal.cbConsultaGeneralProfes.getSelectedIndex();
                 String resultado = "";
 
-                switch (op){
+                switch (op) {
                     case 0:
                         String varSiglaCurso = JOptionPane.showInputDialog("Ingrese la sigla del curso: ");
-                        resultado = obtenerListaProfesoresPorCurso(varSiglaCurso, varListaGrupos);
+                        resultado = obtenerListaProfesoresPorCurso(varSiglaCurso, varListaGrupos, varListaProfesores);
                         break;
                     case 1:
-                        resultado =obtenerListaCursoConProfesor(varListaGrupos);
+                        resultado = obtenerListaCursoConProfesor(varListaGrupos, varListaCursos);
                         break;
                     case 2:
-                        resultado = obtenerListaEscuelasCursoYProfesores(varListaEscuelas, varListaGrupos);
+                        resultado = obtenerListaEscuelasCursoYProfesores(varListaEscuelas, varListaGrupos, varListaCursos);
                         break;
                 }
 
@@ -1137,7 +1142,7 @@ public class Controlador {
 
             Universidad uni = new Universidad(nameU,addressU,numberU);
             varListaUnis.add(uni);
-           // JsonManager.guardar("universidades.json", varListaUnis);
+           JsonManager.guardar("universidades.json", varListaUnis);
             limpiarCamposAgregarUni();
             JOptionPane.showMessageDialog(null, "se agrego la Universidad de forma correcta");
             return;
@@ -1178,7 +1183,7 @@ public class Controlador {
             Universidad u = buscarUniversidadConNombre(pNameU);
             u.setVarAddresU(addressU);
             u.setVarNumberU(numberU);
-            //JsonManager.guardar("universidaads.json", varListaUnis);
+            JsonManager.guardar("universidades.json", varListaUnis);
             JOptionPane.showMessageDialog(null, "La direccion y el numero de telefono han sido modificados exitosamente");
             varPrincipal.btnBuscarNombreU.setEnabled(true);
             varPrincipal.txtName2.setEditable(true);
@@ -1186,7 +1191,7 @@ public class Controlador {
             limpiarCamposModificarUni();
             return;
         } catch(NumberFormatException e){
-            JOptionPane.showMessageDialog(null, "El nï¿½mero de telefono de la universidad solo puede contener numero y no puede estar vacia");
+            JOptionPane.showMessageDialog(null, "El nUmero de telefono de la universidad solo puede contener numero y no puede estar vacia");
         } catch(IllegalArgumentException p) {
             JOptionPane.showMessageDialog(null, p.getMessage());
         }
@@ -1226,7 +1231,7 @@ public class Controlador {
 
             Escuela school = new Escuela(pNameE);
             u.agregarEscuela(school);
-          //  JsonManager.guardar("escuelas.json", varListaEscuelas);
+            JsonManager.guardar("universidades.json", varListaUnis);
             varPrincipal.btnBuscarNombreU.setEnabled(true);
             varPrincipal.txtNameEscuelaUniBuscar.setEditable(true);
             varPrincipal.btnEscuelaBuscarUni.setEnabled(true);
@@ -1314,7 +1319,7 @@ public class Controlador {
                 Curso curso = new Curso(pSigla, pNombre, pEscuela);
                 e.agregarCurso(curso);
                 JOptionPane.showMessageDialog(null, "Curso agregado exitosamente a la " + pEscuela);
-               // JsonManager.guardar("cursos.json", varListaCursos);
+                JsonManager.guardar("universidades.json", varListaUnis);
                 varPrincipal.btnBuscarUniRegistrarCurso.setEnabled(true);
                 varPrincipal.txtBuscarUniRegistrarCurso.setEditable(true);
                 varPrincipal.btnBuscarNuevaUni.setEnabled(false);
@@ -1334,7 +1339,7 @@ public class Controlador {
         for(Universidad u : varListaUnis) {
             varListaEscuelas = u.getEscuelas();
             for(Escuela e : varListaEscuelas) {
-                //varListaCursos = e.getCursos();
+                varListaCursos = e.getCursos();
                 Curso curso = e.getCursoConSigla(pSigla);
                 if(curso != null) {
                     varPrincipal.txtNombreCursoM.setText(curso.getNombre());
@@ -1404,7 +1409,7 @@ public class Controlador {
                 Curso curso = esc.getCursoConSigla(sigla);
                 if (curso != null) {
                     varPrincipal.txtNuevoNombreCurso.setText(curso.getNombre());
-                    //varPrincipal.txtNuevaSigla.setText(curso.getSigla());
+                   // varPrincipal.txtNuevaSigla.setText(curso.getSigla());
                     varPrincipal.btnModCursoP.setEnabled(true);
                     encontrado = true;
                     return;
@@ -1426,7 +1431,7 @@ public class Controlador {
                 Curso curso = esc.getCursoConSigla(siglaAntigua);
                 if (curso != null) {
                     curso.setNombre(nuevoNombre);
-                    //JsonManager.guardar("cursos.json", varListaCursos);
+                    JsonManager.guardar("universidades.json", varListaUnis);
                     JOptionPane.showMessageDialog(null, "Curso modificado exitosamente.");
                     varPrincipal.btnModCursoP.setEnabled(false);
                     limpiarCamposModificadosCurso();
@@ -1446,7 +1451,7 @@ public class Controlador {
                 Curso curso = esc.getCursoConSigla(sigla);
                 if (curso != null) {
                     esc.getCursos().remove(curso);// Aquï¿½ eliminamos el curso
-                    //JsonManager.guardar("cursos.json", varListaCursos);
+                    JsonManager.guardar("cursos.json", varListaCursos);
                     JOptionPane.showMessageDialog(null, "Curso eliminado correctamente");
                     eliminado = true;
                     varPrincipal.txtEliminarCursoPorSigla.setText("");
@@ -1492,18 +1497,32 @@ public class Controlador {
         }
 
         Universidad u = buscarUniversidadConNombre(varPrincipal.txtBuscarUniAgregarGrupo.getText());
+        if (u == null) {
+            JOptionPane.showMessageDialog(null, "No se encontró la universidad.");
+            return;
+        }
+
         Escuela e = u.getEscuelaConNombre(pNombreEscuela);
+        if (e == null) {
+            JOptionPane.showMessageDialog(null, "No se encontró la escuela.");
+            return;
+        }
+
         Curso c = e.getCursoConNombre(pNombreCurso);
-        Profesor p = new Profesor();
-        Grupo grupo = new Grupo(pSiglaGrupo, c, p);
+        if (c == null) {
+            JOptionPane.showMessageDialog(null, "No se encontró el curso.");
+            return;
+        }
+
         for (Grupo g : c.getGruposDelCurso()){
             if(g.getSiglaGrupo().equals(pSiglaGrupo)){
                 JOptionPane.showMessageDialog(null, "Ese grupo ya pertenece existe en el curso seleccionado...");
                 return;
             }
         }
+        Grupo grupo = new Grupo(pSiglaGrupo, c.getSigla(), 0);
         c.agregarGrupo(grupo);
-        //JsonManager.guardar("grupos.json", varListaGrupos);
+        JsonManager.guardar("universidades.json", varListaUnis);
         JOptionPane.showMessageDialog(null, "Grupo con sigla " + pSiglaGrupo + " fue agregado exitosamente al curso " + pNombreCurso);
         varPrincipal.txtBuscarUniAgregarGrupo.setEditable(true);
         varPrincipal.txtBuscarUniAgregarGrupo.setText("");
@@ -1517,7 +1536,14 @@ public class Controlador {
         varPrincipal.btnAgregarGrupoACurso.setEnabled(false);
         return;
     }
-
+    public Curso buscarCursoPorSigla(String sigla, ArrayList<Curso> listaCursos) {
+        for (Curso c : listaCursos) {
+            if (c.getSigla().equalsIgnoreCase(sigla)) {
+                return c;
+            }
+        }
+        return null;
+    }
     public void validarEscuelaAgregarProfesor(String pNombreUni){
         Universidad u = buscarUniversidadConNombre(pNombreUni);
         if(u != null){
@@ -1545,46 +1571,51 @@ public class Controlador {
     }
 
     public void agregarProfesor(String pEscuela, String pUni, String pNumCed, String pNombreProfesor, String pApellido1, String pApellido2) {
-        try{
-            if(pNumCed.equalsIgnoreCase("") || pNombreProfesor.equalsIgnoreCase("") || pApellido1.equalsIgnoreCase("") || pApellido2.equalsIgnoreCase("")){
-                JOptionPane.showMessageDialog(null, "Alguno de los campos esta vacio, por favor llene todos e intentelo de nuevo...");
+        try {
+            if (pNumCed.equalsIgnoreCase("") || pNombreProfesor.equalsIgnoreCase("") ||
+                    pApellido1.equalsIgnoreCase("") || pApellido2.equalsIgnoreCase("")) {
+                JOptionPane.showMessageDialog(null, "Alguno de los campos está vacío. Por favor, llénelos todos e inténtelo de nuevo...");
                 return;
-            } else if(varPrincipal.txtNumeroCedulaProfesor.getText().length() != 9){
-                JOptionPane.showMessageDialog(null, "El numero de cedula debe tener exactamente 9 digitos...");
+            } else if (pNumCed.length() != 9) {
+                JOptionPane.showMessageDialog(null, "El número de cédula debe tener exactamente 9 dígitos...");
                 return;
             }
 
             int numCedula = Integer.parseInt(pNumCed);
 
-            Escuela esc = new Escuela();
-            boolean varDirector = true;
             Universidad u = buscarUniversidadConNombre(pUni);
-            esc = u.encontrarEscuelaConNombre(pEscuela);
+            Escuela esc = u.encontrarEscuelaConNombre(pEscuela);
             varListaProfesores = esc.getProfesores();
-            if(varPrincipal.jrbDirector.isSelected()) {
-                for (Profesor p : varListaProfesores){
-                    if (p.getDirector() == true){
-                        JOptionPane.showMessageDialog(null, "Ya hay un profesor como director en esa escuela, no puede haber mas de 1 director por escuela...");
+
+            boolean varDirector = varPrincipal.jrbDirector.isSelected();
+
+            // Validar si ya hay un director en la escuela
+            if (varDirector) {
+                for (Profesor p : varListaProfesores) {
+                    if (p.getDirector()) {
+                        JOptionPane.showMessageDialog(null, "Ya hay un profesor como director en esa escuela. No puede haber más de 1 director por escuela...");
                         return;
                     }
                 }
             }
 
-            for(Escuela e : u.getEscuelas()){
-                for (Profesor p : e.getProfesores()){
-                    if(p.getNumeroCedula() == numCedula){
-                        if(p.obtenerEscuelaPertenece() != null){
-                            JOptionPane.showMessageDialog(null, "Este profesor ya pertenece a una escuela, un profesor solo puede pertenecer a una sola escuela...");
+            // Validar si el profesor ya está asignado a una escuela
+            for (Escuela e : u.getEscuelas()) {
+                for (Profesor p : e.getProfesores()) {
+                    if (p.getNumeroCedula() == numCedula) {
+                        if (p.obtenerEscuelaPertenece() != null && !p.obtenerEscuelaPertenece().isEmpty()) {
+                            JOptionPane.showMessageDialog(null, "Este profesor ya pertenece a una escuela. Solo puede pertenecer a una.");
                             return;
                         }
                     }
                 }
             }
 
-            varListaProfesores = esc.getProfesores();
-            Profesor profesor = new Profesor(numCedula, pNombreProfesor, pApellido1, pApellido2, varDirector, esc);
+            // Crear profesor usando solo el nombre de la escuela como string
+            Profesor profesor = new Profesor(numCedula, pNombreProfesor, pApellido1, pApellido2, varDirector, pEscuela);
             esc.agregarProfesor(profesor);
-            //JsonManager.guardar("profesores.json", varListaProfesores);
+            JsonManager.guardar("universidades.json", varListaUnis);
+
             JOptionPane.showMessageDialog(null, "Profesor agregado exitosamente a la " + pEscuela);
             varPrincipal.txtNumeroCedulaProfesor.setEnabled(false);
             varPrincipal.txtNombreProfesor.setEnabled(false);
@@ -1595,13 +1626,13 @@ public class Controlador {
             varPrincipal.jrbDirector.setEnabled(false);
             varPrincipal.btnAgregarProfesor.setEnabled(false);
             varPrincipal.cbEscuelasAgregarProfesor.removeAllItems();
-            varPrincipal.cbEscuelasAgregarProfesor.addItem("Aca se mostraran las escuelas de la universidad encontrada");
+            varPrincipal.cbEscuelasAgregarProfesor.addItem("Acá se mostrarán las escuelas de la universidad encontrada");
             limpiarCamposAgregarProfesor();
-            return;
-        } catch(NumberFormatException e){
-            JOptionPane.showMessageDialog(null, "El campo de cedula del profesor solo puede llevar numeros...");
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "El campo de cédula del profesor solo puede llevar números...");
         }
     }
+
 
     public void validarNombreUniModificarProfe(String pNameU){
         Universidad u = buscarUniversidadConNombre(pNameU);
@@ -1664,14 +1695,14 @@ public class Controlador {
         }
 
         Universidad u = buscarUniversidadConNombre(varPrincipal.txtBuscarUniModificarProfe.getText());
-        //varListaEscuelas = u.getEscuelas();
+        varListaEscuelas = u.getEscuelas();
         for(Escuela e : varListaEscuelas){
             Profesor p = e.getProfesorConCedula(Integer.parseInt(varPrincipal.txtEscribirCedulaModificarProfe.getText()));
             if (p != null){
                 p.setNombre(pNombreProfe);
                 p.setApellido1(pApellido1);
                 p.setApellido2(pApellido2);
-               // JsonManager.guardar("profesores.json", varListaProfesores);
+                JsonManager.guardar("universidades.json", varListaUnis);
                 JOptionPane.showMessageDialog(null, "Profesor modificado exitosamente!!!!");
                 varPrincipal.lblEscribirUniModificarProfe.setVisible(true);
                 varPrincipal.txtBuscarUniModificarProfe.setVisible(true);
@@ -1856,34 +1887,38 @@ public class Controlador {
 
     public void mostrarListCursosProfesorPorEscuela(Profesor p) {
         if (p == null) {
-            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun profesor, por favor seleccione uno...");
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningún profesor. Por favor seleccione uno...");
             return;
         }
+
         varPrincipal.cbListaCursos.removeAllItems();
+
         for (Universidad u1 : varListaUnis) {
-            if(u1.getEscuelas()==null||u1.getEscuelas().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "No hay ninguna escuela resgistrada en la universidad seleccionada");
-                return;
+            if (u1.getEscuelas() == null || u1.getEscuelas().isEmpty()) {
+                continue; // Mejor que cortar todo con return
             }
-            for(Escuela e : u1.getEscuelas()) {
 
-                if (e.getProfesores().contains(p)) {
-                    varPrincipal.cbListaCursos.removeAllItems();
-                    for (Curso curso : e.getCursos()) {
-                        if (curso == null||e.getCursos().isEmpty()) {
-                            JOptionPane.showMessageDialog(null, "No hay ningun curso registrado en la escuela seleccionada");
-                            return;
-                        }
-                        varPrincipal.cbListaCursos.addItem(curso);
+            for (Escuela e : u1.getEscuelas()) {
+                if (e.getProfesores() != null && e.getProfesores().contains(p)) {
+
+                    List<Curso> cursos = e.getCursos();
+                    if (cursos == null || cursos.isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "No hay ningún curso registrado en la escuela a la que pertenece el profesor.");
+                        return;
                     }
-                    return;
-                }
 
+                    for (Curso curso : cursos) {
+                        if (curso != null) {
+                            varPrincipal.cbListaCursos.addItem(curso);
+                        }
+                    }
+                    return; // Ya encontramos la escuela del profesor, no seguimos buscando
+                }
             }
         }
-        JOptionPane.showMessageDialog(null, "No hay cursos registrados por este profesor...");
-    }
 
+        JOptionPane.showMessageDialog(null, "Este profesor no pertenece a ninguna escuela.");
+    }
     public void mostrarListaGruposPorCurso(Curso c){
         varPrincipal.cbGruposDelCurso.removeAllItems();
         for (Universidad u1 : varListaUnis) {
@@ -1897,40 +1932,47 @@ public class Controlador {
         }
     }
 
-    public void asignarProfesorAUnCurso(){
+    public void asignarProfesorAUnCurso() {
         Curso cursoSeleccionado = (Curso) varPrincipal.cbListaCursos.getSelectedItem();
         Profesor profesorSeleccionado = (Profesor) varPrincipal.cbListaProfes.getSelectedItem();
         Grupo grupoSeleccionado = (Grupo) varPrincipal.cbGruposDelCurso.getSelectedItem();
 
-        if( profesorSeleccionado == null){
+        if (profesorSeleccionado == null) {
             JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun profesor por favor seleccione uno...");
             return;
         }
-        if( cursoSeleccionado == null){
+        if (cursoSeleccionado == null) {
             JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun curso por favor seleccione uno...");
             return;
         }
-        if(grupoSeleccionado == null){
+        if (grupoSeleccionado == null) {
             JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun grupo, por favor seleccione uno...");
             return;
         }
 
-        for(Curso c : profesorSeleccionado.obtenerCursosImpartidos()){
-            if(c == cursoSeleccionado){
+        for (Curso c : profesorSeleccionado.obtenerCursosImpartidos()) {
+            if (c == cursoSeleccionado) {
                 JOptionPane.showMessageDialog(null, "Este profesor ya imparte este curso...");
                 return;
             }
         }
 
-        if(grupoSeleccionado.getProfesorPertenece() != null){
+        // Ahora profesorPertenece es un ID (por ejemplo int cedula),
+        // revisamos si tiene profesor asignado con una condición diferente:
+        if (grupoSeleccionado.getProfesorPertenece() != 0) { // o null si es Integer
             JOptionPane.showMessageDialog(null, "Este grupo ya se le fue asignado a otro profesor...");
             return;
         }
 
         profesorSeleccionado.asignarProfesorACurso(cursoSeleccionado);
-        grupoSeleccionado.setProfesorPertenece(profesorSeleccionado);
-        //JsonManager.guardar("grupos.json", varListaGrupos);
-        JOptionPane.showMessageDialog(null, "Profesor asignado exitosamente al curso: " + cursoSeleccionado.getNombre() + ". Y grupo con sigla: " + grupoSeleccionado.getSiglaGrupo());
+
+        // Guardar solo la cédula del profesor en el grupo
+        grupoSeleccionado.setProfesorPertenece(profesorSeleccionado.getNumeroCedula());
+
+        JsonManager.guardar("universidades.json", varListaUnis);
+
+        JOptionPane.showMessageDialog(null, "Profesor asignado exitosamente al curso: " + cursoSeleccionado.getNombre() +
+                ". Y grupo con sigla: " + grupoSeleccionado.getSiglaGrupo());
     }
 
     public void desasingarCursoProfesor(){
@@ -1942,10 +1984,10 @@ public class Controlador {
             JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun profesor, curso o grupo, por favor seleccione uno...");
             return;
         }
-        if (grupoSeleccionado.getProfesorPertenece().equals(profesorSeleccionado)){
+        if (grupoSeleccionado.getProfesorPertenece() == profesorSeleccionado.getNumeroCedula()){
             profesorSeleccionado.desasignarProfesorACurso(cursoSeleccionado);
             grupoSeleccionado.setProfesorPertenece(null);
-           // JsonManager.guardar("grupos.json", varListaGrupos);
+            JsonManager.guardar("universidades.json", varListaUnis);
             JOptionPane.showMessageDialog(null, "Profesor desasignado exitosamente al curso: " + cursoSeleccionado.getNombre());
             return;
         }
@@ -1984,24 +2026,17 @@ public class Controlador {
         }
         JOptionPane.showMessageDialog(null, "No se ha encontrado ningun profesor con ese numero de cedula...");
     }
-
-    //Metodos de consulta de los profesores:
-    //Curso con profesores
-    public String obtenerListaProfesoresPorCurso(String pSiglaCurso, ArrayList<Grupo> grupos){
-        StringBuilder resultado = new StringBuilder();
-        for(Grupo grupo: grupos){
-            if(grupo.getCursoPertenece().getSigla().equalsIgnoreCase(pSiglaCurso)){
-                Profesor profe = grupo.getProfesorPertenece();
-                resultado.append("Grupo: ").append(grupo.getSiglaGrupo()).append("\n").append("Profesor: ").append(profe.getNombre()).append("")
-                        .append(profe.getApellido1()).append(" ").append(profe.getApellido2()).append("\n");
+    public Profesor buscarProfesorPorCedula(int cedula, ArrayList<Profesor> profesores) {
+        for (Profesor p : profesores) {
+            if (p.getNumeroCedula() == cedula) {
+                return p;
             }
         }
-        if(resultado.isEmpty()){
-            return "No hay profesores asignados a este curso...";
-        }
-        return resultado.toString();
+        return null;
     }
-    //Todos los cursos sin importar la escuela con sus respectivos profesores
+    //Metodos de consulta de los profesores:
+
+
     public String obtenerListaCursoConProfesor(ArrayList<Grupo> grupos){
         StringBuilder resultado = new StringBuilder();
         for (Grupo grupo : grupos) {
@@ -2018,7 +2053,22 @@ public class Controlador {
         }
         return resultado.toString();
     }
-    //Todas las escuelas, todos los cursos y profesores de cada curso
+
+    public String obtenerListaProfesoresPorCurso(String pSiglaCurso, ArrayList<Grupo> grupos) {
+        StringBuilder resultado = new StringBuilder();
+        for (Grupo grupo : grupos) {
+            if (grupo.getCursoPertenece().getSigla().equalsIgnoreCase(pSiglaCurso)) {
+                Profesor profe = grupo.getProfesorPertenece();
+                resultado.append("Grupo: ").append(grupo.getSiglaGrupo()).append("\n").append("Profesor: ").append(profe.getNombre()).append("")
+                        .append(profe.getApellido1()).append(" ").append(profe.getApellido2()).append("\n");
+            }
+        }
+        if (resultado.isEmpty()) {
+            return "No hay profesores asignados a este curso...";
+        }
+        return resultado.toString();
+    }
+    //Curso con profesores/Todas las escuelas, todos los cursos y profesores de cada curso
     public String obtenerListaEscuelasCursoYProfesores(ArrayList<Escuela> escuelas, ArrayList<Grupo> grupos){
 
         StringBuilder resultado = new StringBuilder();
@@ -2042,6 +2092,9 @@ public class Controlador {
 
 
     }
+
+
+
 
     public void buscarUniAgregarEstudiante(String pNombreUni) {
         Universidad u = buscarUniversidadConNombre(pNombreUni);
@@ -2102,12 +2155,14 @@ public class Controlador {
                 beca = (beca / 100);
                 EstudianteNacional p = new EstudianteNacional(numeroCedula, numeroCarnet, pNombreEst, pApellido1, pApellido2, "Nacional", beca);
                 u.agregarEstudianteNacional(p);
-                //JsonManager.guardar("estudianteNacional", estudiantesNacionalesDeLaUniversidad);
+                JsonManager.guardar("universidades.json", varListaUnis);
+
                 JOptionPane.showMessageDialog(null, "Estudiante nacional agregado a la " + u.getVarNameU() + "!!!");
             } else {
                 EstudianteExtranjero p = new EstudianteExtranjero(numeroCedula, numeroCarnet, pNombreEst, pApellido1, pApellido2, "Extranjero");
                 u.agregarEstudianteExtranjero(p);
-               // JsonManager.guardar("estudianteExtranjero", estudiantesExtranjerosDeLaUniversidad);
+                JsonManager.guardar("universidades.json", varListaUnis);
+
                 JOptionPane.showMessageDialog(null, "Estudiante extranjerp agregado a la " + u.getVarNameU() + "!!!");
             }
             varPrincipal.txtBuscarUniAgregarEstudiante.setEditable(true);
@@ -2266,8 +2321,8 @@ public class Controlador {
                         varPrincipal.txtApellido2ModificarEstudiante.getText(), "Extranjero");
                 u.cambiarDeNacionalidadEstudianteNacional(estNaCambiarNacionalidad.getNumeroCedulaEstudiante());
                 u.agregarEstudianteExtranjero(estudianteExtranjero);
-                //JsonManager.guardar("estudianteExtranjero", estudiantesExtranjerosDeLaUniversidad);
-               // JOptionPane.showMessageDialog(null, "Estudiante ahora es extranjero!!!!");
+                JsonManager.guardar("universidades.json", varListaUnis);
+                JOptionPane.showMessageDialog(null, "Estudiante ahora es extranjero!!!!");
                 modificarOtroEstudiante();
                 return;
             }
@@ -2286,7 +2341,7 @@ public class Controlador {
                         varPrincipal.txtApellido2ModificarEstudiante.getText(), "Nacional", 0.0);
                 u.cambiarDeNacionalidadEstudianteExtranjero(estExCambiarNacionalidad.getNumeroCedulaEstudiante());
                 u.agregarEstudianteNacional(estudianteNacional);
-               // JsonManager.guardar("estudianteNacional", estudiantesNacionalesDeLaUniversidad);
+                JsonManager.guardar("universidades.json", varListaUnis);
                 JOptionPane.showMessageDialog(null, "Estudiante ahora es nacional!!!");
                 modificarOtroEstudiante();
                 return;
@@ -2367,6 +2422,7 @@ public class Controlador {
             return false;
         }
         pCurso.agregarEstudiante(pEstudiante);
+        JsonManager.guardar("universidades.json", varListaUnis);
         JOptionPane .showMessageDialog(null, "Estudiante matriculado exitosamente a el curso: " + pCurso.getNombre() + "!!!");
         return true;
     } // Acá lol
@@ -2377,6 +2433,7 @@ public class Controlador {
             return false;
         }
         pCurso.eliminarEstudiante(pEstudiante);
+        JsonManager.guardar("universidades.json", varListaUnis);
         JOptionPane .showMessageDialog(null, "Estudiante desmatriculado exitosamente a el curso: " + pCurso.getNombre() + "!!!");
         return true;
     }
@@ -2395,10 +2452,13 @@ public class Controlador {
                         for(Curso c: varListaCursos){
                             if(c.getEstudiantesNacionalesDelCurso().contains(e)){
                                aranceles+=e.calculoDeArancelesCurso((int) c.getCreditos());
+                                JsonManager.guardar("universidades.json", varListaUnis);
+
+
                             }
 
                         }
-                        JOptionPane.showMessageDialog(null, "El arancele del estudiante con cedula: " + e.getNumeroCedulaEstudiante() + " es: ₡" + aranceles);
+                        JOptionPane.showMessageDialog(null, "El arancel del estudiante con cedula: " + e.getNumeroCedulaEstudiante() + " es: ₡" + aranceles);
                         return;
                     }
                 }
@@ -2407,6 +2467,8 @@ public class Controlador {
                         for(Curso c: varListaCursos){
                             if(c.getEstudiantesExtranjerosDelCurso().contains(e)){
                                 aranceles+=e.calculoArancelCurso((int) c.getCreditos());
+                                JsonManager.guardar("universidades.json", varListaUnis);
+
                             }
                         }
                         JOptionPane.showMessageDialog(null, "El arancele del estudiante con cedula: " + e.getNumeroCedulaEstudiante() + " es: ₡" + aranceles);

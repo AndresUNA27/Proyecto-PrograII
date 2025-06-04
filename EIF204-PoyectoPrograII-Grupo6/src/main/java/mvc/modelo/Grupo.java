@@ -2,18 +2,18 @@ package mvc.modelo;
 
 public class Grupo {
     private final String siglaGrupo;
-    private Curso cursoPertenece; // Merequetengue
-    private Profesor profesorPertenece;
+    private  String cursoSiglaPertenece; // Merequetengue
+    private Integer  profesorPertenece;
 
     public Grupo(){
         this.siglaGrupo = "";
-        this.cursoPertenece = null;
-        this.profesorPertenece = null;
+        this.cursoSiglaPertenece = "";
+        this.profesorPertenece = 0;
     }
 
-    public Grupo(String siglaGrupo, Curso cursoPertenece, Profesor profesorPertenece) {
+    public Grupo(String siglaGrupo, String cursoPertenece, int profesorPertenece) {
         this.siglaGrupo = siglaGrupo;
-        this.cursoPertenece = cursoPertenece;
+        this.cursoSiglaPertenece = cursoPertenece;
         this.profesorPertenece = profesorPertenece;
     }
 
@@ -21,24 +21,23 @@ public class Grupo {
         return siglaGrupo;
     }
 
-    public Profesor getProfesorPertenece() {
-        return profesorPertenece;
+    public Integer  getProfesorPertenece() {
+        return this.profesorPertenece;
     }
 
-    public void setProfesorPertenece(Profesor pProfesorPertenece) {
+    public void setProfesorPertenece(Integer  pProfesorPertenece) {
         this.profesorPertenece = pProfesorPertenece;
     }
 
-    public Curso getCursoPertenece() {
-        return cursoPertenece;
+    public String getCursoPertenece() {
+        return cursoSiglaPertenece;
     }
 
-    public void setCursoPertenece(Curso pCursoPertenece) {
-        this.cursoPertenece = pCursoPertenece;
+    public void setCursoPertenece(String pCursoPertenece) {
+        this.cursoSiglaPertenece = pCursoPertenece;
     }
 
-    public String toString(){
-        return "Sigla del curso: " + siglaGrupo
-                + " Curso al que pertenece el grupo: " + cursoPertenece.getNombre();
+    public String toString() {
+        return siglaGrupo + " (" + cursoSiglaPertenece + ")";
     }
 }

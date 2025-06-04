@@ -732,7 +732,7 @@ public class PrincipalView extends JFrame {
 
         // gbc.gridx = 1;
         // gbc.gridwidth = 2;
-        // txtNuevaSigla = new JTextField(20);
+         //txtNuevaSigla = new JTextField(20);
         // panelModificarCurso.add(txtNuevaSigla, gbc);
         // gbc.gridwidth = 1;
 
