@@ -73,7 +73,7 @@ public class Curso {
         return estudiantesExtranjerosDelCurso.contains(pEstudiante);
     }
     public void agregarEstudianteNacional(EstudianteNacional estudianteNacional){
-        if(!estaMatriculadoExtranjero(estudianteNacional)){
+        if(!estaMatriculadoNacional(estudianteNacional)){
             this.estudiantesNacionalesDelCurso.add(estudianteNacional);
             return;
         }
@@ -85,7 +85,7 @@ public class Curso {
     }
 
     public void agregarEstudianteExtranjero(EstudianteExtranjero estudianteExtranjero){
-        if(!estaMatriculadoNacional(estudianteExtranjero)){
+        if(!estaMatriculadoExtranjero(estudianteExtranjero)){
             this.estudiantesExtranjerosDelCurso.add(estudianteExtranjero);
             return;
         }
@@ -105,11 +105,12 @@ public class Curso {
     }
 
     public void agregarEstudiante(Estudiante est) {
-        if (est instanceof EstudianteNacional) {
-            agregarEstudianteNacional((EstudianteNacional) est);
-        } else if (est instanceof EstudianteExtranjero) {
-        agregarEstudianteExtranjero((EstudianteExtranjero) est);
-        }
+            if (est instanceof EstudianteNacional) {
+                agregarEstudianteNacional((EstudianteNacional) est);
+            } else if (est instanceof EstudianteExtranjero) {
+                agregarEstudianteExtranjero((EstudianteExtranjero) est);
+            }
+
     }
 
     public ArrayList<Grupo> getGruposDelCurso(){
